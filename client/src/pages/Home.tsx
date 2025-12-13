@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FEATURES } from "@/lib/constants";
 import { CheckCircle2, ArrowRight, Download, Phone, Play, Users, Shield, Clock } from "lucide-react";
+import heroImage from "@assets/WhatsApp_Image_2025-12-13_at_23.49.49_7d55f885_1765665092659.jpg";
 import posScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.18_4192d0ad_1765663551344.jpg";
 import inventoryScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_4a410ec0_1765663551457.jpg";
 import reportsScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_07d2f0f7_1765663551459.jpg";
@@ -30,8 +31,8 @@ export default function Home() {
       <section className="relative pt-20 pb-16 md:pt-28 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src={posScreenshot} 
-            alt="AgroVet POS App" 
+            src={heroImage} 
+            alt="AgroVet Shop Inventory" 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/85 to-background/95" />
