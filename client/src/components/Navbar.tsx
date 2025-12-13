@@ -26,8 +26,10 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-full px-6 shadow-lg shadow-primary/20">
-            Get Started
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-full px-6 shadow-lg shadow-primary/20" asChild>
+            <a href="https://expo.dev/artifacts/eas/4t2t8g33j2uvUnVJwPPpST.apk" target="_blank" rel="noopener noreferrer">
+              Get Started
+            </a>
           </Button>
         </div>
       </div>

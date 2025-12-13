@@ -63,8 +63,10 @@ export default function Home() {
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
-                <Button size="lg" className="rounded-full text-base px-6 shadow-xl shadow-primary/20" data-testid="button-get-started">
-                  Get Started Free <ArrowRight className="ml-2 h-5 w-5" />
+                <Button size="lg" className="rounded-full text-base px-6 shadow-xl shadow-primary/20" data-testid="button-get-started" asChild>
+                  <a href="https://expo.dev/artifacts/eas/4t2t8g33j2uvUnVJwPPpST.apk" target="_blank" rel="noopener noreferrer">
+                    Get Started Free <ArrowRight className="ml-2 h-5 w-5" />
+                  </a>
                 </Button>
                 <Button size="lg" variant="outline" className="rounded-full text-base px-6 bg-white/10 backdrop-blur-sm border-white/30 text-white" data-testid="button-watch-demo">
                   <Play className="mr-2 h-5 w-5" /> Watch Demo
@@ -288,11 +290,15 @@ export default function Home() {
             Join hundreds of agricultural and veterinary shops already using AgroVet POS to streamline their operations and boost sales.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" variant="secondary" className="rounded-full text-lg px-8 h-14" data-testid="button-download">
-              <Download className="mr-2 h-5 w-5" /> Download Now
+            <Button size="lg" variant="secondary" className="rounded-full text-lg px-8 h-14" data-testid="button-download" asChild>
+              <a href="https://expo.dev/artifacts/eas/4t2t8g33j2uvUnVJwPPpST.apk" target="_blank" rel="noopener noreferrer">
+                <Download className="mr-2 h-5 w-5" /> Download Now
+              </a>
             </Button>
-            <Button size="lg" className="rounded-full text-lg px-8 h-14 bg-primary-foreground/10 hover:bg-primary-foreground/20 border-2 border-primary-foreground/20 text-primary-foreground" data-testid="button-contact-sales">
-              Contact Sales <ArrowRight className="ml-2 h-5 w-5" />
+            <Button size="lg" className="rounded-full text-lg px-8 h-14 bg-primary-foreground/10 hover:bg-primary-foreground/20 border-2 border-primary-foreground/20 text-primary-foreground" data-testid="button-contact-sales" asChild>
+              <a href="https://wa.me/254710546911?text=Hello%2C%20I%20am%20interested%20in%20AgroVet%20POS.%20I%20would%20like%20to%20inquire%20about%20pricing%20and%20licensing.%20Please%20get%20back%20to%20me." target="_blank" rel="noopener noreferrer">
+                Contact Sales <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
             </Button>
           </div>
         </div>
