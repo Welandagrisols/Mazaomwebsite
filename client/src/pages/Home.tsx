@@ -34,11 +34,12 @@ export default function Home() {
               <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80 mb-6">
                 New: AI Receipt Scanning
               </div>
-              <h1 className="text-4xl md:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
-                The Smart POS for Modern <span className="text-primary">AgroVets</span>
+              <h1 className="text-5xl md:text-7xl font-display font-bold tracking-tight text-foreground mb-6 leading-tight">
+                <span className="text-primary">AgroVet POS</span>
+                <span className="block text-3xl md:text-5xl mt-2 text-foreground/80">The Ultimate System for Agricultural Shops</span>
               </h1>
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                Streamline your agricultural business with intelligent inventory management, sales tracking, and AI-powered receipt scanning.
+              <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-lg">
+                <strong>AgroVet POS</strong> is the specialized software solution designed for veterinary and agricultural businesses. Manage inventory, track expiry dates, and process sales offline.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="rounded-full text-lg px-8 shadow-xl shadow-primary/20">
