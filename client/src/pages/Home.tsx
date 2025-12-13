@@ -4,11 +4,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FEATURES } from "@/lib/constants";
 import { CheckCircle2, ArrowRight, Download, Phone, Play, Users, Shield, Clock } from "lucide-react";
-import shopImage1 from "@assets/WhatsApp_Image_2025-12-13_at_23.49.50_908e999c_1765660654103.jpg";
-import shopImage2 from "@assets/WhatsApp_Image_2025-12-13_at_23.49.49_7d55f885_1765660654120.jpg";
-import posMockup from "@assets/generated_images/pos_checkout_interface_mockup.png";
-import inventoryMockup from "@assets/generated_images/inventory_management_interface_mockup.png";
-import analyticsMockup from "@assets/generated_images/sales_analytics_dashboard_mockup.png";
+import posScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.18_4192d0ad_1765663551344.jpg";
+import inventoryScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_4a410ec0_1765663551457.jpg";
+import reportsScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_07d2f0f7_1765663551459.jpg";
 import { useState } from "react";
 
 export default function Home() {
@@ -32,8 +30,8 @@ export default function Home() {
       <section className="relative pt-20 pb-16 md:pt-28 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src={shopImage2} 
-            alt="AgroVet Shop Interior" 
+            src={posScreenshot} 
+            alt="AgroVet POS App" 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/85 to-background/95" />
@@ -114,29 +112,44 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
               className="relative"
             >
               <div className="rounded-2xl overflow-hidden shadow-2xl border bg-card">
-                <img src={posMockup} alt="POS Desktop Interface" className="w-full" />
+                <img src={posScreenshot} alt="AgroVet POS Interface" className="w-full" />
               </div>
+              <p className="text-center text-sm text-muted-foreground mt-3 font-medium">Point of Sale</p>
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="rounded-2xl overflow-hidden shadow-2xl border bg-card">
+                <img src={inventoryScreenshot} alt="Inventory Management" className="w-full" />
+              </div>
+              <p className="text-center text-sm text-muted-foreground mt-3 font-medium">Inventory</p>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
               className="relative"
             >
               <div className="rounded-2xl overflow-hidden shadow-2xl border bg-card">
-                <img src={analyticsMockup} alt="Analytics Dashboard" className="w-full" />
+                <img src={reportsScreenshot} alt="Sales Reports Dashboard" className="w-full" />
               </div>
+              <p className="text-center text-sm text-muted-foreground mt-3 font-medium">Reports</p>
             </motion.div>
           </div>
         </div>
@@ -187,7 +200,7 @@ export default function Home() {
                   viewport={{ once: true }}
                   className="rounded-2xl overflow-hidden shadow-2xl"
                 >
-                  <img src={shopImage1} alt="Real AgroVet Shop with Staff" className="w-full h-64 md:h-80 object-cover" />
+                  <img src={posScreenshot} alt="AgroVet POS Interface" className="w-full h-64 md:h-80 object-contain bg-card" />
                 </motion.div>
                 <div className="grid grid-cols-2 gap-6">
                   <motion.div
@@ -197,7 +210,7 @@ export default function Home() {
                     viewport={{ once: true }}
                     className="rounded-xl overflow-hidden shadow-xl"
                   >
-                    <img src={inventoryMockup} alt="Inventory Management" className="w-full h-40 object-cover" />
+                    <img src={inventoryScreenshot} alt="Inventory Management" className="w-full h-40 object-contain bg-card" />
                   </motion.div>
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -206,7 +219,7 @@ export default function Home() {
                     viewport={{ once: true }}
                     className="rounded-xl overflow-hidden shadow-xl"
                   >
-                    <img src={shopImage2} alt="Shop Products Display" className="w-full h-40 object-cover" />
+                    <img src={reportsScreenshot} alt="Sales Reports" className="w-full h-40 object-contain bg-card" />
                   </motion.div>
                 </div>
               </div>
