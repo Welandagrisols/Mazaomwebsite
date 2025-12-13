@@ -112,7 +112,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -120,10 +120,15 @@ export default function Home() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="rounded-2xl overflow-hidden shadow-2xl border bg-card">
-                <img src={posScreenshot} alt="AgroVet POS Interface" className="w-full" />
+              <div className="relative mx-auto w-[200px] md:w-[220px]">
+                <div className="rounded-[2.5rem] border-[8px] border-foreground/90 bg-foreground/90 p-1 shadow-2xl">
+                  <div className="rounded-[2rem] overflow-hidden bg-black">
+                    <img src={posScreenshot} alt="AgroVet POS Interface" className="w-full" />
+                  </div>
+                </div>
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-foreground/90 rounded-full"></div>
               </div>
-              <p className="text-center text-sm text-muted-foreground mt-3 font-medium">Point of Sale</p>
+              <p className="text-center text-sm text-muted-foreground mt-4 font-medium">Point of Sale</p>
             </motion.div>
             
             <motion.div
@@ -133,10 +138,15 @@ export default function Home() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="rounded-2xl overflow-hidden shadow-2xl border bg-card">
-                <img src={inventoryScreenshot} alt="Inventory Management" className="w-full" />
+              <div className="relative mx-auto w-[200px] md:w-[220px]">
+                <div className="rounded-[2.5rem] border-[8px] border-foreground/90 bg-foreground/90 p-1 shadow-2xl">
+                  <div className="rounded-[2rem] overflow-hidden bg-black">
+                    <img src={inventoryScreenshot} alt="Inventory Management" className="w-full" />
+                  </div>
+                </div>
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-foreground/90 rounded-full"></div>
               </div>
-              <p className="text-center text-sm text-muted-foreground mt-3 font-medium">Inventory</p>
+              <p className="text-center text-sm text-muted-foreground mt-4 font-medium">Inventory</p>
             </motion.div>
             
             <motion.div
@@ -146,10 +156,15 @@ export default function Home() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="rounded-2xl overflow-hidden shadow-2xl border bg-card">
-                <img src={reportsScreenshot} alt="Sales Reports Dashboard" className="w-full" />
+              <div className="relative mx-auto w-[200px] md:w-[220px]">
+                <div className="rounded-[2.5rem] border-[8px] border-foreground/90 bg-foreground/90 p-1 shadow-2xl">
+                  <div className="rounded-[2rem] overflow-hidden bg-black">
+                    <img src={reportsScreenshot} alt="Sales Reports Dashboard" className="w-full" />
+                  </div>
+                </div>
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-foreground/90 rounded-full"></div>
               </div>
-              <p className="text-center text-sm text-muted-foreground mt-3 font-medium">Reports</p>
+              <p className="text-center text-sm text-muted-foreground mt-4 font-medium">Reports</p>
             </motion.div>
           </div>
         </div>
@@ -192,36 +207,49 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
-              <div className="grid gap-6">
+              <div className="flex flex-wrap justify-center gap-4 lg:gap-6">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
                   viewport={{ once: true }}
-                  className="rounded-2xl overflow-hidden shadow-2xl"
+                  className="relative w-[140px] md:w-[160px]"
                 >
-                  <img src={posScreenshot} alt="AgroVet POS Interface" className="w-full h-64 md:h-80 object-contain bg-card" />
+                  <div className="rounded-[2rem] border-[6px] border-foreground/90 bg-foreground/90 p-0.5 shadow-2xl">
+                    <div className="rounded-[1.5rem] overflow-hidden bg-black">
+                      <img src={posScreenshot} alt="AgroVet POS Interface" className="w-full" />
+                    </div>
+                  </div>
+                  <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-3 bg-foreground/90 rounded-full"></div>
                 </motion.div>
-                <div className="grid grid-cols-2 gap-6">
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    viewport={{ once: true }}
-                    className="rounded-xl overflow-hidden shadow-xl"
-                  >
-                    <img src={inventoryScreenshot} alt="Inventory Management" className="w-full h-40 object-contain bg-card" />
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    viewport={{ once: true }}
-                    className="rounded-xl overflow-hidden shadow-xl"
-                  >
-                    <img src={reportsScreenshot} alt="Sales Reports" className="w-full h-40 object-contain bg-card" />
-                  </motion.div>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="relative w-[140px] md:w-[160px]"
+                >
+                  <div className="rounded-[2rem] border-[6px] border-foreground/90 bg-foreground/90 p-0.5 shadow-2xl">
+                    <div className="rounded-[1.5rem] overflow-hidden bg-black">
+                      <img src={inventoryScreenshot} alt="Inventory Management" className="w-full" />
+                    </div>
+                  </div>
+                  <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-3 bg-foreground/90 rounded-full"></div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="relative w-[140px] md:w-[160px]"
+                >
+                  <div className="rounded-[2rem] border-[6px] border-foreground/90 bg-foreground/90 p-0.5 shadow-2xl">
+                    <div className="rounded-[1.5rem] overflow-hidden bg-black">
+                      <img src={reportsScreenshot} alt="Sales Reports" className="w-full" />
+                    </div>
+                  </div>
+                  <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-3 bg-foreground/90 rounded-full"></div>
+                </motion.div>
               </div>
             </div>
             
