@@ -60,17 +60,19 @@ export default function Licenses() {
         
         <Dialog open={isGenerateOpen} onOpenChange={setIsGenerateOpen}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
-              <Plus className="h-4 w-4" /> Generate New Key
+            <Button size="lg" className="gap-2 shadow-md">
+              <Plus className="h-5 w-5" /> Generate New Key
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>Generate License Key</DialogTitle>
-              <DialogDescription>Create a new license key for a client.</DialogDescription>
+              <DialogDescription>
+                Create a new license key to activate the AgroVet POS desktop application.
+              </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleGenerate}>
-              <div className="grid gap-4 py-4">
+              <div className="grid gap-6 py-4">
                 <div className="grid gap-2">
                   <Label htmlFor="type">License Type</Label>
                   <Select defaultValue="annual">
@@ -78,19 +80,23 @@ export default function Licenses() {
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="annual">Annual Subscription</SelectItem>
+                      <SelectItem value="annual">Annual Subscription (1 Year)</SelectItem>
                       <SelectItem value="lifetime">Lifetime Access</SelectItem>
                       <SelectItem value="trial">30-Day Trial</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="client">Assign to Client (Optional)</Label>
-                  <Input id="client" placeholder="Search client..." />
+                  <Label htmlFor="client">Shop/Client Name</Label>
+                  <Input id="client" placeholder="e.g. GreenFields Agro" required />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="phone">Contact Phone (Optional)</Label>
+                  <Input id="phone" placeholder="+254..." />
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit">Generate Key</Button>
+                <Button type="submit" size="lg" className="w-full">Generate & Activate Key</Button>
               </DialogFooter>
             </form>
           </DialogContent>
