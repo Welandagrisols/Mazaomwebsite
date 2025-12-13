@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useLocation } from "wouter";
-import logo from "@assets/generated_images/minimalist_logo_icon_for_agrisols_systems.png";
+import logo from "@assets/generated_images/clean_vector_logo_of_plant_with_digital_network_roots.png";
 
 export default function AdminLogin() {
   const [, setLocation] = useLocation();

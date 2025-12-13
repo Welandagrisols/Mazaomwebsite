@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 import { ADMIN_NAV_ITEMS } from "@/lib/constants";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@assets/generated_images/minimalist_logo_icon_for_agrisols_systems.png";
+import logo from "@assets/generated_images/clean_vector_logo_of_plant_with_digital_network_roots.png";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   const [location, setLocation] = useLocation();

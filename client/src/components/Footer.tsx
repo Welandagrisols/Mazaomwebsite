@@ -1,5 +1,5 @@
 import { Phone, Mail, MapPin } from "lucide-react";
-import logo from "@assets/generated_images/minimalist_logo_icon_for_agrisols_systems.png";
+import logo from "@assets/generated_images/clean_vector_logo_of_plant_with_digital_network_roots.png";
 
 export function Footer() {
   return (
