@@ -7,41 +7,76 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { MOCK_LICENSES } from "@/lib/constants";
-import { Plus, Search, Copy, Check } from "lucide-react";
+import { Plus, Search, Copy } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Licenses() {
   const { toast } = useToast();
-  const [licenses, setLicenses] = useState(MOCK_LICENSES);
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
-
+  const [licenseType, setLicenseType] = useState("annual");
   const [shopName, setShopName] = useState("");
   const [phone, setPhone] = useState("");
 
+  const { data: licenses, isLoading } = useQuery({
+    queryKey: ["/api/licenses"],
+    queryFn: async () => {
+      const response = await fetch("/api/licenses");
+      if (!response.ok) throw new Error("Failed to fetch licenses");
+      return response.json();
+    },
+  });
+
+  const createLicenseMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await fetch("/api/licenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error("Failed to create license");
+      return response.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/licenses"] });
+      setIsGenerateOpen(false);
+      setShopName("");
+      setPhone("");
+      toast({
+        title: "License Generated",
+        description: `New key: ${data.key} for ${data.shop}`,
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleGenerate = (e: React.FormEvent) => {
     e.preventDefault();
+    
     const newKey = `AGRO-${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`;
-    const newLicense = {
-      id: licenses.length + 1,
+    
+    const expiryDate = licenseType === "lifetime" 
+      ? "2099-12-31" 
+      : licenseType === "trial" 
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+    createLicenseMutation.mutate({
       key: newKey,
       status: "Unused",
-      shop: shopName || "-", // Use the entered shop name
-      expiry: "2025-12-31", // Default 1 year
+      shop: shopName || "-",
+      expiry: expiryDate,
       created: new Date().toISOString().split('T')[0],
-    };
-    
-    setLicenses([newLicense, ...licenses]);
-    setIsGenerateOpen(false);
-    
-    // Reset form
-    setShopName("");
-    setPhone("");
-    
-    toast({
-      title: "License Generated",
-      description: `New key: ${newKey} for ${shopName}`,
+      phone: phone || null,
     });
   };
 
@@ -53,10 +88,10 @@ export default function Licenses() {
     });
   };
 
-  const filteredLicenses = licenses.filter(l => 
+  const filteredLicenses = licenses?.filter((l: any) => 
     l.key.toLowerCase().includes(searchTerm.toLowerCase()) || 
     l.shop.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  ) || [];
 
   return (
     <AdminLayout>
@@ -83,7 +118,7 @@ export default function Licenses() {
               <div className="grid gap-6 py-4">
                 <div className="grid gap-2">
                   <Label htmlFor="type">License Type</Label>
-                  <Select defaultValue="annual">
+                  <Select value={licenseType} onValueChange={setLicenseType}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
@@ -115,7 +150,14 @@ export default function Licenses() {
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit" size="lg" className="w-full">Generate & Activate Key</Button>
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="w-full"
+                  disabled={createLicenseMutation.isPending}
+                >
+                  {createLicenseMutation.isPending ? "Generating..." : "Generate & Activate Key"}
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>
@@ -134,46 +176,60 @@ export default function Licenses() {
             />
           </div>
         </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>License Key</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Shop Name</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead>Expiry</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredLicenses.map((license) => (
-              <TableRow key={license.id}>
-                <TableCell className="font-mono font-medium">{license.key}</TableCell>
-                <TableCell>
-                  <Badge variant={
-                    license.status === "Active" ? "default" : 
-                    license.status === "Unused" ? "secondary" : 
-                    "destructive"
-                  } className={
-                    license.status === "Active" ? "bg-green-100 text-green-700 hover:bg-green-200 border-transparent shadow-none" : 
-                    license.status === "Unused" ? "bg-blue-100 text-blue-700 hover:bg-blue-200 border-transparent shadow-none" : 
-                    "bg-red-100 text-red-700 hover:bg-red-200 border-transparent shadow-none"
-                  }>
-                    {license.status}
-                  </Badge>
-                </TableCell>
-                <TableCell>{license.shop}</TableCell>
-                <TableCell>{license.created}</TableCell>
-                <TableCell>{license.expiry}</TableCell>
-                <TableCell className="text-right">
-                  <Button variant="ghost" size="icon" onClick={() => copyToClipboard(license.key)}>
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                </TableCell>
+        {isLoading ? (
+          <div className="flex items-center justify-center h-64">
+            <Spinner />
+          </div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>License Key</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Shop Name</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead>Expiry</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredLicenses.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                    {searchTerm ? "No licenses found matching your search" : "No licenses yet. Generate your first license key above."}
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredLicenses.map((license: any) => (
+                  <TableRow key={license.id}>
+                    <TableCell className="font-mono font-medium">{license.key}</TableCell>
+                    <TableCell>
+                      <Badge variant={
+                        license.status === "Active" ? "default" : 
+                        license.status === "Unused" ? "secondary" : 
+                        "destructive"
+                      } className={
+                        license.status === "Active" ? "bg-green-100 text-green-700 hover:bg-green-200 border-transparent shadow-none" : 
+                        license.status === "Unused" ? "bg-blue-100 text-blue-700 hover:bg-blue-200 border-transparent shadow-none" : 
+                        "bg-red-100 text-red-700 hover:bg-red-200 border-transparent shadow-none"
+                      }>
+                        {license.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{license.shop}</TableCell>
+                    <TableCell>{license.created}</TableCell>
+                    <TableCell>{license.expiry}</TableCell>
+                    <TableCell className="text-right">
+                      <Button variant="ghost" size="icon" onClick={() => copyToClipboard(license.key)}>
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </AdminLayout>
   );

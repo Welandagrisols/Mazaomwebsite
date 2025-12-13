@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MOCK_CLIENTS, MOCK_LICENSES } from "@/lib/constants";
 import { AdminLayout } from "@/layouts/AdminLayout";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Key, ShoppingBag, Users, AlertCircle } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "@/components/ui/spinner";
 
 const data = [
   { name: "Jan", sales: 4000 },
@@ -15,6 +16,38 @@ const data = [
 ];
 
 export default function Dashboard() {
+  const { data: licenses, isLoading: licensesLoading } = useQuery({
+    queryKey: ["/api/licenses"],
+    queryFn: async () => {
+      const response = await fetch("/api/licenses");
+      if (!response.ok) throw new Error("Failed to fetch licenses");
+      return response.json();
+    },
+  });
+
+  const { data: clients, isLoading: clientsLoading } = useQuery({
+    queryKey: ["/api/clients"],
+    queryFn: async () => {
+      const response = await fetch("/api/clients");
+      if (!response.ok) throw new Error("Failed to fetch clients");
+      return response.json();
+    },
+  });
+
+  const isLoading = licensesLoading || clientsLoading;
+
+  if (isLoading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <Spinner />
+        </div>
+      </AdminLayout>
+    );
+  }
+
+  const activeClients = clients?.filter((c: any) => c.status === "Active").length || 0;
+
   return (
     <AdminLayout>
       <div className="mb-8">
@@ -29,7 +62,7 @@ export default function Dashboard() {
             <Key className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{MOCK_LICENSES.length}</div>
+            <div className="text-2xl font-bold">{licenses?.length || 0}</div>
             <p className="text-xs text-muted-foreground">+2 from last month</p>
           </CardContent>
         </Card>
@@ -40,7 +73,7 @@ export default function Dashboard() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{MOCK_CLIENTS.filter(c => c.status === "Active").length}</div>
+            <div className="text-2xl font-bold">{activeClients}</div>
             <p className="text-xs text-muted-foreground">+12% from last month</p>
           </CardContent>
         </Card>
@@ -94,7 +127,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-8">
-              {MOCK_LICENSES.slice(0, 5).map((license) => (
+              {licenses?.slice(0, 5).map((license: any) => (
                 <div key={license.id} className="flex items-center">
                   <div className={`h-9 w-9 rounded-full flex items-center justify-center border
                     ${license.status === 'Active' ? 'bg-green-100 border-green-200 text-green-700' : 
