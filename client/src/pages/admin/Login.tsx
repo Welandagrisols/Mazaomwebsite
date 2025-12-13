@@ -22,7 +22,7 @@ export default function AdminLogin() {
     setTimeout(() => {
       setLoading(false);
       
-      if (email === "wesleykoech2022@gmail.com" && password === "admin123") {
+      if (email === "welandagrisols@gmail.com" && password === "admin123") {
         setLocation("/admin");
       } else {
         setError("Invalid email or password. Please try again.");
@@ -54,7 +54,7 @@ export default function AdminLogin() {
               <Input 
                 id="email" 
                 type="email" 
-                placeholder="admin@agrisols.com" 
+                placeholder="welandagrisols@gmail.com" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required 
