@@ -9,14 +9,24 @@ import logo from "@assets/generated_images/clean_vector_logo_of_plant_with_digit
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate login delay
+    setError("");
+
+    // Simulate login verification
     setTimeout(() => {
       setLoading(false);
-      setLocation("/admin");
+      
+      if (email === "wesleykoech2022@gmail.com" && password === "admin123") {
+        setLocation("/admin");
+      } else {
+        setError("Invalid email or password. Please try again.");
+      }
     }, 1000);
   };
 
@@ -34,13 +44,31 @@ export default function AdminLogin() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
+            {error && (
+              <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
+                {error}
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" placeholder="admin@agrisols.com" required />
+              <Input 
+                id="email" 
+                type="email" 
+                placeholder="admin@agrisols.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required 
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required />
+              <Input 
+                id="password" 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required 
+              />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}

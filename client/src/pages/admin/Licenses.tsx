@@ -17,6 +17,9 @@ export default function Licenses() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
 
+  const [shopName, setShopName] = useState("");
+  const [phone, setPhone] = useState("");
+
   const handleGenerate = (e: React.FormEvent) => {
     e.preventDefault();
     const newKey = `AGRO-${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`;
@@ -24,16 +27,21 @@ export default function Licenses() {
       id: licenses.length + 1,
       key: newKey,
       status: "Unused",
-      shop: "-",
+      shop: shopName || "-", // Use the entered shop name
       expiry: "2025-12-31", // Default 1 year
       created: new Date().toISOString().split('T')[0],
     };
     
     setLicenses([newLicense, ...licenses]);
     setIsGenerateOpen(false);
+    
+    // Reset form
+    setShopName("");
+    setPhone("");
+    
     toast({
       title: "License Generated",
-      description: `New key: ${newKey}`,
+      description: `New key: ${newKey} for ${shopName}`,
     });
   };
 
@@ -88,11 +96,22 @@ export default function Licenses() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="client">Shop/Client Name</Label>
-                  <Input id="client" placeholder="e.g. GreenFields Agro" required />
+                  <Input 
+                    id="client" 
+                    placeholder="e.g. GreenFields Agro" 
+                    value={shopName}
+                    onChange={(e) => setShopName(e.target.value)}
+                    required 
+                  />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="phone">Contact Phone (Optional)</Label>
-                  <Input id="phone" placeholder="+254..." />
+                  <Input 
+                    id="phone" 
+                    placeholder="+254..." 
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
                 </div>
               </div>
               <DialogFooter>
