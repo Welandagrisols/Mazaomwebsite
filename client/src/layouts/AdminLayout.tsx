@@ -18,7 +18,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       <aside className="w-64 bg-sidebar border-r border-sidebar-border flex-shrink-0 hidden md:flex flex-col">
         <div className="h-16 flex items-center px-6 border-b border-sidebar-border">
           <Link href="/" className="flex items-center gap-2 hover:opacity-90">
-             <img src={logo} alt="Logo" className="h-6 w-auto" />
+             <img src={logo} alt="Logo" className="h-10 w-auto" />
             <span className="font-display text-lg font-bold text-sidebar-primary-foreground">Agrisols Admin</span>
           </Link>
         </div>

@@ -24,7 +24,7 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-muted/20 px-4">
       <Card className="w-full max-w-md shadow-xl border-t-4 border-t-primary">
         <CardHeader className="text-center space-y-4 pb-8">
-          <div className="mx-auto h-16 w-16 rounded-full bg-white flex items-center justify-center shadow-sm p-2">
+          <div className="mx-auto h-24 w-24 rounded-full bg-white flex items-center justify-center shadow-sm p-4">
             <img src={logo} alt="Logo" className="h-full w-full object-contain" />
           </div>
           <div>
