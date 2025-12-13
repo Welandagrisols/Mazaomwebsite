@@ -1,10 +1,10 @@
-import { LayoutDashboard, Key, Users, BarChart3, Box, ScanLine, Smartphone, Cloud, WifiOff, LogOut } from "lucide-react";
+import { LayoutDashboard, Key, Users, BarChart3, Package, ScanLine, Smartphone, CloudUpload, WifiOff, LogOut } from "lucide-react";
 
 export const FEATURES = [
   {
     title: "Inventory Management",
     description: "Track stock levels, expiration dates, and reorder points automatically.",
-    icon: Box,
+    icon: Package,
   },
   {
     title: "AI Receipt Scanning",
@@ -29,7 +29,7 @@ export const FEATURES = [
   {
     title: "Cloud Sync",
     description: "Powered by Supabase for secure, reliable data storage and backup.",
-    icon: Cloud,
+    icon: CloudUpload,
   },
 ];
 

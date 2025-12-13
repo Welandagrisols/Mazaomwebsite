@@ -188,10 +188,10 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow bg-muted/50 h-full">
+                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow bg-card h-full">
                   <CardContent className="p-8">
-                    <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                      <feature.icon className="h-6 w-6 text-primary" />
+                    <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center mb-6">
+                      <feature.icon className="h-6 w-6 text-white" fill="currentColor" strokeWidth={1.5} />
                     </div>
                     <h3 className="font-display text-xl font-bold mb-3">{feature.title}</h3>
                     <p className="text-muted-foreground leading-relaxed">{feature.description}</p>

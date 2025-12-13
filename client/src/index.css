@@ -57,100 +57,100 @@
 }
 
 :root {
-  /* Earthy Green & Tech Teal Theme */
-  --background: 60 20% 98%; /* Soft Cream */
-  --foreground: 140 30% 15%; /* Dark Green/Black */
+  /* Warm Earth & Forest Green Theme */
+  --background: 40 30% 97%; /* Warm Cream */
+  --foreground: 30 20% 15%; /* Warm Dark Brown */
   
   --card: 0 0% 100%;
-  --card-foreground: 140 30% 15%;
+  --card-foreground: 30 20% 15%;
   
   --popover: 0 0% 100%;
-  --popover-foreground: 140 30% 15%;
+  --popover-foreground: 30 20% 15%;
   
-  /* Agro Green - Slightly deeper to match reference */
-  --primary: 140 60% 30%; 
+  /* Forest Green - Rich and vibrant */
+  --primary: 145 65% 32%; 
   --primary-foreground: 0 0% 100%;
   
-  /* Tech Teal/Cyan from Logo */
-  --secondary: 175 40% 90%; /* Light Teal Background */
-  --secondary-foreground: 175 80% 30%; /* Dark Teal Text */
+  /* Warm Beige/Tan */
+  --secondary: 35 40% 92%;
+  --secondary-foreground: 30 50% 25%;
   
-  --muted: 100 10% 94%;
-  --muted-foreground: 140 10% 40%;
+  --muted: 35 20% 93%;
+  --muted-foreground: 30 15% 45%;
   
-  /* Tech Cyan Accent */
-  --accent: 175 70% 40%; 
+  /* Warm Orange Accent */
+  --accent: 25 80% 50%; 
   --accent-foreground: 0 0% 100%;
   
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 140 15% 90%;
-  --input: 140 15% 90%;
-  --ring: 140 60% 30%;
+  --border: 35 20% 88%;
+  --input: 35 20% 88%;
+  --ring: 145 65% 32%;
 
   --radius: 0.5rem;
   
-  /* Chart colors updated to match branding */
-  --chart-1: 140 60% 30%; /* Green */
-  --chart-2: 175 70% 40%; /* Teal */
-  --chart-3: 25 70% 40%;  /* Brown/Earth */
-  --chart-4: 200 50% 45%;
+  /* Chart colors with warm earth tones */
+  --chart-1: 145 65% 32%; /* Green */
+  --chart-2: 25 80% 50%; /* Orange */
+  --chart-3: 35 60% 45%;  /* Tan/Brown */
+  --chart-4: 175 50% 40%; /* Teal */
   --chart-5: 280 50% 45%;
   
-  --sidebar: 140 30% 15%; /* Dark Sidebar */
-  --sidebar-foreground: 0 0% 98%;
-  --sidebar-primary: 175 70% 40%; /* Teal for active state */
+  --sidebar: 30 25% 12%; /* Warm Dark Sidebar */
+  --sidebar-foreground: 40 20% 96%;
+  --sidebar-primary: 145 65% 40%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 140 25% 20%;
-  --sidebar-accent-foreground: 0 0% 98%;
-  --sidebar-border: 140 25% 20%;
-  --sidebar-ring: 175 70% 40%;
+  --sidebar-accent: 30 20% 18%;
+  --sidebar-accent-foreground: 40 20% 96%;
+  --sidebar-border: 30 20% 18%;
+  --sidebar-ring: 145 65% 40%;
 }
 
 .dark {
-  --background: 140 30% 10%;
-  --foreground: 60 20% 98%;
+  --background: 30 20% 8%;
+  --foreground: 40 20% 96%;
   
-  --card: 140 25% 12%;
-  --card-foreground: 60 20% 98%;
+  --card: 30 18% 12%;
+  --card-foreground: 40 20% 96%;
   
-  --popover: 140 25% 12%;
-  --popover-foreground: 60 20% 98%;
+  --popover: 30 18% 12%;
+  --popover-foreground: 40 20% 96%;
   
-  --primary: 140 50% 45%;
+  --primary: 145 55% 42%;
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 175 30% 20%;
-  --secondary-foreground: 175 60% 90%;
+  --secondary: 35 25% 18%;
+  --secondary-foreground: 35 40% 85%;
   
-  --muted: 140 20% 20%;
-  --muted-foreground: 140 10% 65%;
+  --muted: 30 15% 18%;
+  --muted-foreground: 35 15% 60%;
   
-  --accent: 175 60% 50%;
+  --accent: 25 70% 55%;
   --accent-foreground: 0 0% 100%;
   
   --destructive: 0 62% 30%;
   --destructive-foreground: 0 0% 98%;
   
-  --border: 140 20% 20%;
-  --input: 140 20% 20%;
-  --ring: 175 60% 50%;
+  --border: 30 15% 18%;
+  --input: 30 15% 18%;
+  --ring: 145 55% 42%;
   
-  --chart-1: 140 50% 45%;
-  --chart-2: 175 60% 50%;
-  --chart-3: 25 60% 50%;
-  --chart-4: 200 50% 45%;
+  --chart-1: 145 55% 42%;
+  --chart-2: 25 70% 55%;
+  --chart-3: 35 50% 50%;
+  --chart-4: 175 50% 45%;
   --chart-5: 280 50% 45%;
   
-  --sidebar: 140 30% 8%;
-  --sidebar-foreground: 60 10% 96%;
-  --sidebar-primary: 175 60% 50%;
+  --sidebar: 30 20% 6%;
+  --sidebar-foreground: 40 15% 94%;
+  --sidebar-primary: 145 55% 45%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 140 25% 15%;
-  --sidebar-accent-foreground: 60 10% 96%;
-  --sidebar-border: 140 20% 20%;
-  --sidebar-ring: 175 60% 50%;
+  --sidebar-accent: 30 18% 14%;
+  --sidebar-accent-foreground: 40 15% 94%;
+  --sidebar-border: 30 15% 18%;
+  --sidebar-ring: 145 55% 45%;
 }
 
 @layer base {
