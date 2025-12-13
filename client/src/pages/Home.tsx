@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FEATURES } from "@/lib/constants";
-import { CheckCircle2, ArrowRight, Download, Phone } from "lucide-react";
-import heroBg from "@assets/generated_images/modern_agricultural_veterinary_shop_interior_background.png";
+import { CheckCircle2, ArrowRight, Download, Phone, Play, Users, Shield, Clock } from "lucide-react";
+import shopImage1 from "@assets/WhatsApp_Image_2025-12-13_at_23.49.50_908e999c_1765660654103.jpg";
+import shopImage2 from "@assets/WhatsApp_Image_2025-12-13_at_23.49.49_7d55f885_1765660654120.jpg";
 import posMockup from "@assets/generated_images/pos_checkout_interface_mockup.png";
 import inventoryMockup from "@assets/generated_images/inventory_management_interface_mockup.png";
 import analyticsMockup from "@assets/generated_images/sales_analytics_dashboard_mockup.png";
@@ -19,10 +20,8 @@ export default function Home() {
     
     const message = `Hello, I would like to request a license for AgroVet POS.\n\nShop Name: ${shopName}\nPhone: ${phoneNumber}`;
     
-    // Open WhatsApp in new tab
     window.open(`https://wa.me/254710546911?text=${encodeURIComponent(message)}`, '_blank');
     
-    // Open Email client
     window.location.href = `mailto:welandagrisols@gmail.com?subject=License Request - ${shopName}&body=${encodeURIComponent(message)}`;
   };
 
@@ -30,40 +29,113 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       
       {/* Hero Section */}
-      <section className="relative pt-20 pb-32 md:pt-32 md:pb-48 overflow-hidden">
+      <section className="relative pt-20 pb-16 md:pt-28 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src={heroBg} 
-            alt="AgroVet Shop" 
+            src={shopImage2} 
+            alt="AgroVet Shop Interior" 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/85 to-background/95" />
         </div>
 
         <div className="container relative z-10 mx-auto px-4 md:px-6">
-          <div className="max-w-2xl">
+          <div className="text-center max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80 mb-6">
-                New: AI Receipt Scanning
+              {/* Powered by Badge */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-8" data-testid="badge-powered-by">
+                <span className="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+                Powered by Agrisols Systems
               </div>
-              <h1 className="text-5xl md:text-7xl font-display font-bold tracking-tight text-foreground mb-6 leading-tight">
+              
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight text-foreground mb-4 leading-tight">
                 <span className="text-primary">AgroVet POS</span>
-                <span className="block text-3xl md:text-5xl mt-2 text-foreground/80">The Ultimate System for Agricultural Shops</span>
               </h1>
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-lg">
-                <strong>AgroVet POS</strong> is the specialized software solution designed for veterinary and agricultural businesses. Manage inventory, track expiry dates, and process sales offline.
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-foreground/80 mb-6">
+                Smart Point of Sale
+              </h2>
+              
+              <p className="text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed max-w-2xl mx-auto">
+                The complete solution for Agricultural & Veterinary Shops. Easy inventory management, sales tracking, and AI-powered receipt scanning - all in one powerful platform.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="rounded-full text-lg px-8 shadow-xl shadow-primary/20">
-                  Download Now <ArrowRight className="ml-2 h-5 w-5" />
+              
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
+                <Button size="lg" className="rounded-full text-lg px-8 shadow-xl shadow-primary/20" data-testid="button-get-started">
+                  Get Started Free <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full text-lg px-8 bg-background/50 backdrop-blur-sm">
-                  View Demo
+                <Button size="lg" variant="outline" className="rounded-full text-lg px-8 bg-background/50 backdrop-blur-sm" data-testid="button-watch-demo">
+                  <Play className="mr-2 h-5 w-5" /> Watch Demo
                 </Button>
+              </div>
+
+              {/* Stats Section */}
+              <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto">
+                <div className="text-center" data-testid="stat-active-shops">
+                  <div className="flex items-center justify-center mb-2">
+                    <Users className="h-5 w-5 text-primary mr-2" />
+                    <span className="text-3xl md:text-4xl font-display font-bold text-foreground">500+</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Active Shops</p>
+                </div>
+                <div className="text-center" data-testid="stat-uptime">
+                  <div className="flex items-center justify-center mb-2">
+                    <Shield className="h-5 w-5 text-primary mr-2" />
+                    <span className="text-3xl md:text-4xl font-display font-bold text-foreground">99.9%</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Uptime</p>
+                </div>
+                <div className="text-center" data-testid="stat-support">
+                  <div className="flex items-center justify-center mb-2">
+                    <Clock className="h-5 w-5 text-primary mr-2" />
+                    <span className="text-3xl md:text-4xl font-display font-bold text-foreground">24/7</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Support</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* App Preview Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold text-primary tracking-wider uppercase mb-4">App Preview</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+              See <span className="text-primary">AgroVet POS</span> In Action
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              A glimpse into the powerful interface that makes managing your shop effortless.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="rounded-2xl overflow-hidden shadow-2xl border bg-card">
+                <img src={posMockup} alt="POS Desktop Interface" className="w-full" />
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="rounded-2xl overflow-hidden shadow-2xl border bg-card">
+                <img src={analyticsMockup} alt="Analytics Dashboard" className="w-full" />
               </div>
             </motion.div>
           </div>
@@ -71,7 +143,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-24 bg-muted/30">
+      <section id="features" className="py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Everything you need to run your shop</h2>
@@ -87,7 +159,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow bg-background/50 backdrop-blur-sm h-full">
+                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow bg-muted/50 h-full">
                   <CardContent className="p-8">
                     <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
                       <feature.icon className="h-6 w-6 text-primary" />
@@ -102,22 +174,46 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section id="gallery" className="py-24 bg-background overflow-hidden">
+      {/* Real Shops Section */}
+      <section id="gallery" className="py-24 bg-muted/30 overflow-hidden">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="order-2 lg:order-1 relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent opacity-20 blur-3xl rounded-full" />
-              <div className="relative grid gap-4">
-                 <img src={posMockup} alt="POS Interface" className="rounded-lg shadow-2xl border" />
-                 <div className="grid grid-cols-2 gap-4">
-                    <img src={inventoryMockup} alt="Inventory" className="rounded-lg shadow-xl border" />
-                    <img src={analyticsMockup} alt="Analytics" className="rounded-lg shadow-xl border" />
-                 </div>
+            <div className="order-2 lg:order-1">
+              <div className="grid gap-6">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="rounded-2xl overflow-hidden shadow-2xl"
+                >
+                  <img src={shopImage1} alt="Real AgroVet Shop with Staff" className="w-full h-64 md:h-80 object-cover" />
+                </motion.div>
+                <div className="grid grid-cols-2 gap-6">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    viewport={{ once: true }}
+                    className="rounded-xl overflow-hidden shadow-xl"
+                  >
+                    <img src={inventoryMockup} alt="Inventory Management" className="w-full h-40 object-cover" />
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    viewport={{ once: true }}
+                    className="rounded-xl overflow-hidden shadow-xl"
+                  >
+                    <img src={shopImage2} alt="Shop Products Display" className="w-full h-40 object-cover" />
+                  </motion.div>
+                </div>
               </div>
             </div>
             
             <div className="order-1 lg:order-2">
+              <p className="text-sm font-semibold text-primary tracking-wider uppercase mb-4">Trusted by Real Shops</p>
               <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">Designed for clarity and speed</h2>
               <p className="text-lg text-muted-foreground mb-8">
                 Our interface is intuitive and easy to learn, so you can spend less time training staff and more time serving customers.
@@ -128,10 +224,10 @@ export default function Home() {
                   "Fast checkout process optimized for touch",
                   "Visual inventory tracking with low stock alerts",
                   "Detailed reports exported to PDF or Excel",
-                  "Dark mode support for late evenings"
+                  "Works offline - no internet required"
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-primary" />
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
                     <span className="font-medium">{item}</span>
                   </li>
                 ))}
@@ -141,21 +237,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Download / CTA */}
+      {/* CTA Section */}
       <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 text-center">
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">Ready to upgrade your shop?</h2>
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">Ready to Transform Your Business?</h2>
           <p className="text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto">
-            Join hundreds of AgroVets using our system to grow their business. 
-            Download the desktop app today.
+            Join hundreds of agricultural and veterinary shops already using AgroVet POS to streamline their operations and boost sales.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" variant="secondary" className="rounded-full text-lg px-8 h-14">
-              <Download className="mr-2 h-5 w-5" /> Download for Windows
+            <Button size="lg" variant="secondary" className="rounded-full text-lg px-8 h-14" data-testid="button-download">
+              <Download className="mr-2 h-5 w-5" /> Download Now
             </Button>
-            <Button size="lg" className="rounded-full text-lg px-8 h-14 bg-primary-foreground/10 hover:bg-primary-foreground/20 border-2 border-primary-foreground/20 text-primary-foreground">
-              Contact Sales
+            <Button size="lg" className="rounded-full text-lg px-8 h-14 bg-primary-foreground/10 hover:bg-primary-foreground/20 border-2 border-primary-foreground/20 text-primary-foreground" data-testid="button-contact-sales">
+              Contact Sales <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
         </div>
@@ -164,6 +259,11 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contact" className="py-24 bg-muted/50">
         <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold text-primary tracking-wider uppercase mb-4">Get In Touch</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold">Contact Us</h2>
+          </div>
+          
           <div className="max-w-4xl mx-auto bg-card rounded-2xl shadow-xl overflow-hidden border">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="p-8 md:p-12">
@@ -179,7 +279,6 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-semibold">Call or WhatsApp</h4>
-                      <p className="text-muted-foreground">+254 710 546 911</p>
                       <p className="text-muted-foreground">+254 710 546 911</p>
                     </div>
                   </div>
@@ -213,6 +312,7 @@ export default function Home() {
                     value={shopName}
                     onChange={(e) => setShopName(e.target.value)}
                     required
+                    data-testid="input-shop-name"
                   />
                   <Input 
                     placeholder="Phone Number" 
@@ -220,8 +320,9 @@ export default function Home() {
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     required
+                    data-testid="input-phone"
                   />
-                  <Button variant="secondary" className="w-full" type="submit">
+                  <Button variant="secondary" className="w-full" type="submit" data-testid="button-send-request">
                     Send Request
                   </Button>
                 </form>
