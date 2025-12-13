@@ -28,14 +28,14 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       
       {/* Hero Section */}
-      <section className="relative pt-20 pb-16 md:pt-28 md:pb-24 overflow-hidden">
+      <section className="relative pt-16 pb-12 md:pt-20 md:pb-16 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src={heroImage} 
             alt="AgroVet Shop Inventory" 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/85 to-background/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
         </div>
 
         <div className="container relative z-10 mx-auto px-4 md:px-6">
@@ -46,53 +46,53 @@ export default function Home() {
               transition={{ duration: 0.5 }}
             >
               {/* Powered by Badge */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-8" data-testid="badge-powered-by">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm px-4 py-1.5 text-sm font-medium text-white mb-4" data-testid="badge-powered-by">
                 <span className="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
                 Powered by Agrisols Systems
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight text-foreground mb-4 leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight text-white mb-2 leading-tight">
                 <span className="text-primary">AgroVet POS</span>
               </h1>
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-foreground/80 mb-6">
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-white/90 mb-4">
                 Smart Point of Sale
               </h2>
               
-              <p className="text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed max-w-2xl mx-auto">
+              <p className="text-base md:text-lg text-white/80 mb-6 leading-relaxed max-w-2xl mx-auto">
                 The complete solution for Agricultural & Veterinary Shops. Easy inventory management, sales tracking, and AI-powered receipt scanning - all in one powerful platform.
               </p>
               
-              <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
-                <Button size="lg" className="rounded-full text-lg px-8 shadow-xl shadow-primary/20" data-testid="button-get-started">
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+                <Button size="lg" className="rounded-full text-base px-6 shadow-xl shadow-primary/20" data-testid="button-get-started">
                   Get Started Free <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full text-lg px-8 bg-background/50 backdrop-blur-sm" data-testid="button-watch-demo">
+                <Button size="lg" variant="outline" className="rounded-full text-base px-6 bg-white/10 backdrop-blur-sm border-white/30 text-white" data-testid="button-watch-demo">
                   <Play className="mr-2 h-5 w-5" /> Watch Demo
                 </Button>
               </div>
 
               {/* Stats Section */}
-              <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto">
+              <div className="grid grid-cols-3 gap-6 max-w-lg mx-auto">
                 <div className="text-center" data-testid="stat-active-shops">
-                  <div className="flex items-center justify-center mb-2">
-                    <Users className="h-5 w-5 text-primary mr-2" />
-                    <span className="text-3xl md:text-4xl font-display font-bold text-foreground">500+</span>
+                  <div className="flex items-center justify-center mb-1">
+                    <Users className="h-4 w-4 text-primary mr-2" />
+                    <span className="text-2xl md:text-3xl font-display font-bold text-white">500+</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Active Shops</p>
+                  <p className="text-xs text-white/70">Active Shops</p>
                 </div>
                 <div className="text-center" data-testid="stat-uptime">
-                  <div className="flex items-center justify-center mb-2">
-                    <Shield className="h-5 w-5 text-primary mr-2" />
-                    <span className="text-3xl md:text-4xl font-display font-bold text-foreground">99.9%</span>
+                  <div className="flex items-center justify-center mb-1">
+                    <Shield className="h-4 w-4 text-primary mr-2" />
+                    <span className="text-2xl md:text-3xl font-display font-bold text-white">99.9%</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Uptime</p>
+                  <p className="text-xs text-white/70">Uptime</p>
                 </div>
                 <div className="text-center" data-testid="stat-support">
-                  <div className="flex items-center justify-center mb-2">
-                    <Clock className="h-5 w-5 text-primary mr-2" />
-                    <span className="text-3xl md:text-4xl font-display font-bold text-foreground">24/7</span>
+                  <div className="flex items-center justify-center mb-1">
+                    <Clock className="h-4 w-4 text-primary mr-2" />
+                    <span className="text-2xl md:text-3xl font-display font-bold text-white">24/7</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Support</p>
+                  <p className="text-xs text-white/70">Support</p>
                 </div>
               </div>
             </motion.div>
