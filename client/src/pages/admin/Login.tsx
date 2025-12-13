@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Leaf } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
+import logo from "@assets/generated_images/minimalist_logo_icon_for_agrisols_systems.png";
 
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
@@ -24,8 +24,8 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-muted/20 px-4">
       <Card className="w-full max-w-md shadow-xl border-t-4 border-t-primary">
         <CardHeader className="text-center space-y-4 pb-8">
-          <div className="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-            <Leaf className="h-6 w-6 text-primary" />
+          <div className="mx-auto h-16 w-16 rounded-full bg-white flex items-center justify-center shadow-sm p-2">
+            <img src={logo} alt="Logo" className="h-full w-full object-contain" />
           </div>
           <div>
             <CardTitle className="text-2xl font-display font-bold">Admin Login</CardTitle>

@@ -1,7 +1,8 @@
 import { Link, useLocation } from "wouter";
 import { ADMIN_NAV_ITEMS } from "@/lib/constants";
-import { Leaf, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@assets/generated_images/minimalist_logo_icon_for_agrisols_systems.png";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   const [location, setLocation] = useLocation();
@@ -16,9 +17,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside className="w-64 bg-sidebar border-r border-sidebar-border flex-shrink-0 hidden md:flex flex-col">
         <div className="h-16 flex items-center px-6 border-b border-sidebar-border">
-          <Link href="/" className="flex items-center gap-2 font-display text-lg font-bold text-sidebar-primary-foreground hover:opacity-90">
-            <Leaf className="h-5 w-5 text-sidebar-primary" />
-            <span>AgroVet Admin</span>
+          <Link href="/" className="flex items-center gap-2 hover:opacity-90">
+             <img src={logo} alt="Logo" className="h-6 w-auto" />
+            <span className="font-display text-lg font-bold text-sidebar-primary-foreground">Agrisols Admin</span>
           </Link>
         </div>
 
@@ -57,7 +58,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto">
         <div className="h-16 border-b bg-background flex items-center px-6 md:hidden">
-          <span className="font-display font-bold">AgroVet Admin</span>
+          <span className="font-display font-bold">Agrisols Admin</span>
         </div>
         <div className="p-6 md:p-8 max-w-7xl mx-auto">
           {children}

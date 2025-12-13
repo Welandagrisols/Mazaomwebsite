@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Leaf } from "lucide-react";
+import logo from "@assets/generated_images/minimalist_logo_icon_for_agrisols_systems.png";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -11,9 +11,9 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2 font-display text-xl font-bold text-primary hover:opacity-90 transition-opacity">
-          <Leaf className="h-6 w-6" />
-          <span>AgroVet POS</span>
+        <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
+          <img src={logo} alt="Agrisols Logo" className="h-8 w-auto" />
+          <span className="font-display text-xl font-bold text-foreground">Agrisols Systems</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-6">

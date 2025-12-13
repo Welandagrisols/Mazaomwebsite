@@ -1,4 +1,5 @@
-import { Leaf, Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
+import logo from "@assets/generated_images/minimalist_logo_icon_for_agrisols_systems.png";
 
 export function Footer() {
   return (
@@ -6,9 +7,9 @@ export function Footer() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <div className="flex items-center gap-2 font-display text-xl font-bold text-primary-foreground">
-              <Leaf className="h-6 w-6 text-primary" />
-              <span>AgroVet POS</span>
+            <div className="flex items-center gap-2">
+              <img src={logo} alt="Agrisols Logo" className="h-8 w-auto" />
+              <span className="font-display text-xl font-bold text-primary-foreground">Agrisols Systems</span>
             </div>
             <p className="text-sm text-sidebar-foreground/70 leading-relaxed">
               Empowering agricultural businesses with smart, reliable, and easy-to-use point of sale technology.
