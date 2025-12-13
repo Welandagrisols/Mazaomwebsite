@@ -8,8 +8,24 @@ import heroBg from "@assets/generated_images/modern_agricultural_veterinary_shop
 import posMockup from "@assets/generated_images/pos_checkout_interface_mockup.png";
 import inventoryMockup from "@assets/generated_images/inventory_management_interface_mockup.png";
 import analyticsMockup from "@assets/generated_images/sales_analytics_dashboard_mockup.png";
+import { useState } from "react";
 
 export default function Home() {
+  const [shopName, setShopName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handleRequest = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const message = `Hello, I would like to request a license for AgroVet POS.\n\nShop Name: ${shopName}\nPhone: ${phoneNumber}`;
+    
+    // Open WhatsApp in new tab
+    window.open(`https://wa.me/254710546911?text=${encodeURIComponent(message)}`, '_blank');
+    
+    // Open Email client
+    window.location.href = `mailto:welandagrisols@gmail.com?subject=License Request - ${shopName}&body=${encodeURIComponent(message)}`;
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       
@@ -190,10 +206,24 @@ export default function Home() {
                   Fill out the form below and we'll send you a license key immediately.
                 </p>
                 
-                <form className="space-y-4">
-                  <Input placeholder="Shop Name" className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50" />
-                  <Input placeholder="Phone Number" className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50" />
-                  <Button variant="secondary" className="w-full">Send Request</Button>
+                <form className="space-y-4" onSubmit={handleRequest}>
+                  <Input 
+                    placeholder="Shop Name" 
+                    className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50" 
+                    value={shopName}
+                    onChange={(e) => setShopName(e.target.value)}
+                    required
+                  />
+                  <Input 
+                    placeholder="Phone Number" 
+                    className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50" 
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    required
+                  />
+                  <Button variant="secondary" className="w-full" type="submit">
+                    Send Request
+                  </Button>
                 </form>
               </div>
             </div>
