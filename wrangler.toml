@@ -5,3 +5,15 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 ENVIRONMENT = "production"
+
+# To connect to your Supabase PostgreSQL:
+# 1. Create a Hyperdrive config: npx wrangler hyperdrive create my-postgres --connection-string="YOUR_SUPABASE_DATABASE_URL"
+# 2. Copy the returned ID below
+# 3. Uncomment the hyperdrive section
+
+# [[hyperdrive]]
+# binding = "HYPERDRIVE"
+# id = "YOUR_HYPERDRIVE_ID"
+
+# Alternative: Set DATABASE_URL as a secret
+# Run: npx wrangler secret put DATABASE_URL
