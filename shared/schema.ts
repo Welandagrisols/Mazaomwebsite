@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, serial } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, serial, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -45,7 +45,7 @@ export const licenses = pgTable("licenses", {
   expiry: text("expiry").notNull(),
   created: text("created").notNull(),
   phone: text("phone"),
-  clientId: serial("client_id").references(() => clients.id),
+  clientId: integer("client_id").references(() => clients.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
