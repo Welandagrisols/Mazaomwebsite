@@ -284,7 +284,7 @@ export default function Home() {
             <p className="text-sm md:text-lg text-muted-foreground">Built specifically for the unique needs of agricultural and veterinary businesses.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
             {FEATURES.map((feature, index) => (
               <motion.div
                 key={index}
@@ -367,7 +367,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 max-w-5xl mx-auto">
             {PRICING_PLANS.map((plan, index) => (
               <motion.div
                 key={plan.name}
@@ -442,7 +442,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 max-w-5xl mx-auto">
             {TESTIMONIALS.map((testimonial, index) => (
               <motion.div
                 key={index}
