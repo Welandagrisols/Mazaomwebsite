@@ -6,6 +6,15 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 ENVIRONMENT = "production"
 
+# Static assets configuration for serving React frontend
+[assets]
+binding = "ASSETS"
+directory = "./dist/public"
+not_found_handling = "single-page-application"
+
+# Run worker first for API routes
+run_worker_first = ["/api/*", "/health"]
+
 # To connect to your Supabase PostgreSQL:
 # 1. Create a Hyperdrive config: npx wrangler hyperdrive create my-postgres --connection-string="YOUR_SUPABASE_DATABASE_URL"
 # 2. Copy the returned ID below

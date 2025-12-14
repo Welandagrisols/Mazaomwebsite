@@ -10,6 +10,7 @@ import { fromZodError } from 'zod-validation-error';
 type Bindings = {
   DATABASE_URL: string;
   HYPERDRIVE?: { connectionString: string };
+  ASSETS?: { fetch: (request: Request) => Promise<Response> };
 };
 
 type Variables = {
@@ -42,8 +43,9 @@ app.use('*', async (c, next) => {
   await next();
 });
 
-app.get('/', (c) => {
-  return c.json({ message: 'REST API running on Cloudflare Workers!' });
+// Health check endpoint
+app.get('/health', (c) => {
+  return c.json({ status: 'ok', message: 'REST API running on Cloudflare Workers!' });
 });
 
 app.get('/api/clients', async (c) => {
@@ -194,6 +196,15 @@ app.delete('/api/licenses/:id', async (c) => {
   } catch (error: any) {
     return c.json({ message: error.message }, 500);
   }
+});
+
+// Serve static assets for all other routes (frontend)
+app.all('*', async (c) => {
+  const env = c.env;
+  if (env.ASSETS) {
+    return env.ASSETS.fetch(c.req.raw);
+  }
+  return c.json({ message: 'Not Found' }, 404);
 });
 
 export default app;
