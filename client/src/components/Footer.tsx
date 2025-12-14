@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer className="bg-sidebar text-sidebar-foreground py-12 border-t border-sidebar-border">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="space-y-8">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <img src={logo} alt="AgroVet POS Logo" className="h-12 w-auto" />
@@ -17,42 +17,44 @@ export function Footer() {
             </p>
           </div>
           
-          <div>
-            <h3 className="font-display font-semibold mb-4 text-primary-foreground">Product</h3>
-            <ul className="space-y-2 text-sm text-sidebar-foreground/70">
-              <li><a href="#" className="hover:text-primary transition-colors">Features</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Hardware</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Download</a></li>
-            </ul>
-          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div>
+              <h3 className="font-display font-semibold mb-4 text-primary-foreground">Product</h3>
+              <ul className="space-y-2 text-sm text-sidebar-foreground/70">
+                <li><a href="#" className="hover:text-primary transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Hardware</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Download</a></li>
+              </ul>
+            </div>
 
-          <div>
-            <h3 className="font-display font-semibold mb-4 text-primary-foreground">Support</h3>
-            <ul className="space-y-2 text-sm text-sidebar-foreground/70">
-              <li><a href="#" className="hover:text-primary transition-colors">Documentation</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">FAQ</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Contact Us</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
-            </ul>
-          </div>
+            <div>
+              <h3 className="font-display font-semibold mb-4 text-primary-foreground">Support</h3>
+              <ul className="space-y-2 text-sm text-sidebar-foreground/70">
+                <li><a href="#" className="hover:text-primary transition-colors">Documentation</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">FAQ</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Contact Us</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
+              </ul>
+            </div>
 
-          <div>
-            <h3 className="font-display font-semibold mb-4 text-primary-foreground">Contact</h3>
-            <ul className="space-y-3 text-sm text-sidebar-foreground/70">
-              <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-primary" />
-                <span>+254 710 546 911</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-primary" />
-                <span>info@agrisols.com</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-primary" />
-                <span>Nairobi, Kenya</span>
-              </li>
-            </ul>
+            <div className="col-span-2 md:col-span-1">
+              <h3 className="font-display font-semibold mb-4 text-primary-foreground">Contact</h3>
+              <ul className="space-y-3 text-sm text-sidebar-foreground/70">
+                <li className="flex items-center gap-2">
+                  <Phone className="h-4 w-4 text-primary" />
+                  <span>+254 710 546 911</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-primary" />
+                  <span>info@agrisols.com</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <MapPin className="h-4 w-4 text-primary" />
+                  <span>Nairobi, Kenya</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         
