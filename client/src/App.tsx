@@ -11,6 +11,9 @@ import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
 import AdminLicenses from "@/pages/admin/Licenses";
 import AdminClients from "@/pages/admin/Clients";
+import AdminContent from "@/pages/admin/Content";
+import AdminReviews from "@/pages/admin/Reviews";
+import AdminSettings from "@/pages/admin/Settings";
 
 function Router() {
   return (
@@ -25,7 +28,10 @@ function Router() {
       
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/licenses" component={AdminLicenses} />
+      <Route path="/admin/content" component={AdminContent} />
+      <Route path="/admin/reviews" component={AdminReviews} />
       <Route path="/admin/clients" component={AdminClients} />
+      <Route path="/admin/settings" component={AdminSettings} />
       
       <Route component={NotFound} />
     </Switch>
