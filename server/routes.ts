@@ -199,6 +199,53 @@ export async function registerRoutes(
     }
   });
 
+  // License Verification API
+  app.post("/api/licenses/verify", async (req, res) => {
+    try {
+      const { key, phone } = req.body;
+
+      if (!key || !phone) {
+        return res.status(400).json({ message: "License key and phone number are required" });
+      }
+
+      const license = await storage.getLicenseByKey(key);
+      if (!license) {
+        return res.status(404).json({ message: "License key not found" });
+      }
+
+      // Verify phone number matches
+      if (license.phone && license.phone !== phone) {
+        return res.status(401).json({ message: "Phone number does not match this license" });
+      }
+
+      // Check if license has expired
+      const expiryDate = new Date(license.expiry);
+      const today = new Date();
+      if (expiryDate < today) {
+        return res.status(403).json({ message: "License has expired" });
+      }
+
+      // Check if license is already in use or active
+      if (license.status === "Expired") {
+        return res.status(403).json({ message: "License has expired" });
+      }
+
+      // Return license details
+      res.json({
+        success: true,
+        license: {
+          key: license.key,
+          shop: license.shop,
+          status: license.status,
+          expiry: license.expiry,
+          phone: license.phone,
+        }
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   // Content API
   app.get("/api/content", async (_req, res) => {
     try {
