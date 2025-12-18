@@ -58,3 +58,58 @@ export const selectLicenseSchema = createSelectSchema(licenses);
 
 export type License = typeof licenses.$inferSelect;
 export type InsertLicense = z.infer<typeof insertLicenseSchema>;
+
+// Content/Blog posts table
+export const content = pgTable("content", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  excerpt: text("excerpt"),
+  author: text("author").notNull().default("Admin"),
+  status: text("status").notNull().default("draft"), // draft, published
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  publishedAt: timestamp("published_at"),
+});
+
+export const insertContentSchema = createInsertSchema(content).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type Content = typeof content.$inferSelect;
+export type InsertContent = z.infer<typeof insertContentSchema>;
+
+// Client reviews table
+export const reviews = pgTable("reviews", {
+  id: serial("id").primaryKey(),
+  clientName: text("client_name").notNull(),
+  business: text("business").notNull(),
+  rating: integer("rating").notNull().default(5),
+  text: text("text").notNull(),
+  approved: text("approved").notNull().default("pending"), // pending, approved, rejected
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const insertReviewSchema = createInsertSchema(reviews).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type Review = typeof reviews.$inferSelect;
+export type InsertReview = z.infer<typeof insertReviewSchema>;
+
+// Settings table for storing API keys and configuration
+export const settings = pgTable("settings", {
+  id: serial("id").primaryKey(),
+  key: text("key").notNull().unique(),
+  value: text("value").notNull(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const insertSettingSchema = createInsertSchema(settings).omit({
+  id: true,
+  updatedAt: true,
+});
+
+export type Setting = typeof settings.$inferSelect;
+export type InsertSetting = z.infer<typeof insertSettingSchema>;

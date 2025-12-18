@@ -8,9 +8,18 @@ import {
   type InsertClient,
   type License,
   type InsertLicense,
+  type Content,
+  type InsertContent,
+  type Review,
+  type InsertReview,
+  type Setting,
+  type InsertSetting,
   users,
   clients,
   licenses,
+  content,
+  reviews,
+  settings,
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -45,6 +54,27 @@ export interface IStorage {
   createLicense(license: InsertLicense): Promise<License>;
   updateLicense(id: number, license: Partial<InsertLicense>): Promise<License | undefined>;
   deleteLicense(id: number): Promise<boolean>;
+
+  // Content
+  getAllContent(): Promise<Content[]>;
+  getPublishedContent(): Promise<Content[]>;
+  getContent(id: number): Promise<Content | undefined>;
+  createContent(content: InsertContent): Promise<Content>;
+  updateContent(id: number, content: Partial<InsertContent>): Promise<Content | undefined>;
+  deleteContent(id: number): Promise<boolean>;
+
+  // Reviews
+  getAllReviews(): Promise<Review[]>;
+  getApprovedReviews(): Promise<Review[]>;
+  getReview(id: number): Promise<Review | undefined>;
+  createReview(review: InsertReview): Promise<Review>;
+  updateReview(id: number, review: Partial<InsertReview>): Promise<Review | undefined>;
+  deleteReview(id: number): Promise<boolean>;
+
+  // Settings
+  getSetting(key: string): Promise<Setting | undefined>;
+  setSetting(key: string, value: string): Promise<Setting>;
+  getAllSettings(): Promise<Setting[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -117,6 +147,84 @@ export class DatabaseStorage implements IStorage {
   async deleteLicense(id: number): Promise<boolean> {
     const result = await db.delete(licenses).where(eq(licenses.id, id)).returning();
     return result.length > 0;
+  }
+
+  // Content
+  async getAllContent(): Promise<Content[]> {
+    return await db.select().from(content).orderBy(desc(content.createdAt));
+  }
+
+  async getPublishedContent(): Promise<Content[]> {
+    return await db.select().from(content).where(eq(content.status, "published")).orderBy(desc(content.createdAt));
+  }
+
+  async getContent(id: number): Promise<Content | undefined> {
+    const result = await db.select().from(content).where(eq(content.id, id)).limit(1);
+    return result[0];
+  }
+
+  async createContent(insertContent: InsertContent): Promise<Content> {
+    const result = await db.insert(content).values(insertContent).returning();
+    return result[0];
+  }
+
+  async updateContent(id: number, updateData: Partial<InsertContent>): Promise<Content | undefined> {
+    const result = await db.update(content).set(updateData).where(eq(content.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteContent(id: number): Promise<boolean> {
+    const result = await db.delete(content).where(eq(content.id, id)).returning();
+    return result.length > 0;
+  }
+
+  // Reviews
+  async getAllReviews(): Promise<Review[]> {
+    return await db.select().from(reviews).orderBy(desc(reviews.createdAt));
+  }
+
+  async getApprovedReviews(): Promise<Review[]> {
+    return await db.select().from(reviews).where(eq(reviews.approved, "approved")).orderBy(desc(reviews.createdAt));
+  }
+
+  async getReview(id: number): Promise<Review | undefined> {
+    const result = await db.select().from(reviews).where(eq(reviews.id, id)).limit(1);
+    return result[0];
+  }
+
+  async createReview(insertReview: InsertReview): Promise<Review> {
+    const result = await db.insert(reviews).values(insertReview).returning();
+    return result[0];
+  }
+
+  async updateReview(id: number, updateData: Partial<InsertReview>): Promise<Review | undefined> {
+    const result = await db.update(reviews).set(updateData).where(eq(reviews.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteReview(id: number): Promise<boolean> {
+    const result = await db.delete(reviews).where(eq(reviews.id, id)).returning();
+    return result.length > 0;
+  }
+
+  // Settings
+  async getSetting(key: string): Promise<Setting | undefined> {
+    const result = await db.select().from(settings).where(eq(settings.key, key)).limit(1);
+    return result[0];
+  }
+
+  async setSetting(key: string, value: string): Promise<Setting> {
+    const existing = await this.getSetting(key);
+    if (existing) {
+      const result = await db.update(settings).set({ value, updatedAt: new Date() }).where(eq(settings.key, key)).returning();
+      return result[0];
+    }
+    const result = await db.insert(settings).values({ key, value }).returning();
+    return result[0];
+  }
+
+  async getAllSettings(): Promise<Setting[]> {
+    return await db.select().from(settings);
   }
 }
 
