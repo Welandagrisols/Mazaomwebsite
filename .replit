@@ -46,3 +46,9 @@ waitForPort = 5000
 mockupState = "FULLSTACK"
 expertMode = true
 integrations = ["javascript_openai:1.0.0"]
+
+[userenv]
+
+[userenv.shared]
+ADMIN_USERNAME = "admin"
+ADMIN_PASSWORD = "admin123"

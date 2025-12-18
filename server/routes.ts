@@ -3,11 +3,34 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertClientSchema, insertLicenseSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
+import { z } from "zod";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  // Auth API
+  app.post("/api/auth/login", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+
+      if (!username || !password) {
+        return res.status(400).json({ message: "Username and password are required" });
+      }
+
+      const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
+      const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        return res.json({ success: true, user: { id: "admin", username: ADMIN_USERNAME } });
+      }
+
+      res.status(401).json({ message: "Invalid username or password" });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   // Clients API
   app.get("/api/clients", async (_req, res) => {
     try {

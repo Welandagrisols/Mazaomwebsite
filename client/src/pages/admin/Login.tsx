@@ -5,29 +5,41 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useLocation } from "wouter";
 import logo from "@assets/generated_images/clean_vector_logo_of_plant_with_digital_network_roots.png";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    // Simulate login verification
-    setTimeout(() => {
-      setLoading(false);
-      
-      if (email === "welandagrisols@gmail.com" && password === "admin123") {
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("adminUser", JSON.stringify(data.user));
         setLocation("/admin");
       } else {
-        setError("Invalid email or password. Please try again.");
+        const errorData = await response.json();
+        setError(errorData.message || "Invalid credentials. Please try again.");
       }
-    }, 1000);
+    } catch (err: any) {
+      setError("Connection error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,14 +62,15 @@ export default function AdminLogin() {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="username">Username</Label>
               <Input 
-                id="email" 
-                type="email" 
-                placeholder="welandagrisols@gmail.com" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="username" 
+                type="text" 
+                placeholder="Enter your username" 
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required 
+                data-testid="input-username"
               />
             </div>
             <div className="space-y-2">
