@@ -5,6 +5,25 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import logo from "@assets/generated_images/clean_vector_logo_of_plant_with_digital_network_roots.png";
 
+// Track CTA clicks
+const trackCTAClick = async (action: string) => {
+  try {
+    await fetch("/api/analytics/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        eventType: "cta_click",
+        page: "landing",
+        action: action,
+        referrer: document.referrer || "direct",
+        userAgent: navigator.userAgent,
+      }),
+    });
+  } catch (error) {
+    console.error("Failed to track CTA click:", error);
+  }
+};
+
 const navLinks = [
   { href: "#features", label: "Features" },
   { href: "#how-it-works", label: "How It Works" },
@@ -56,7 +75,13 @@ export function Navbar() {
 
         <div className="flex items-center gap-2 md:gap-4">
           <Button className="hidden sm:flex bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-full px-4 md:px-6 shadow-lg shadow-primary/20" asChild>
-            <a href="https://bit.ly/agrovet-pos-app" target="_blank" rel="noopener noreferrer" data-testid="button-get-started-nav">
+            <a 
+              href="https://bit.ly/agrovet-pos-app" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              data-testid="button-get-started-nav"
+              onClick={() => trackCTAClick("get_started_nav")}
+            >
               Get Started
             </a>
           </Button>
@@ -93,7 +118,13 @@ export function Navbar() {
                 </nav>
                 
                 <Button className="w-full rounded-full" asChild>
-                  <a href="https://bit.ly/agrovet-pos-app" target="_blank" rel="noopener noreferrer" data-testid="button-get-started-mobile">
+                  <a 
+                    href="https://bit.ly/agrovet-pos-app" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    data-testid="button-get-started-mobile"
+                    onClick={() => trackCTAClick("get_started_mobile")}
+                  >
                     Download App
                   </a>
                 </Button>

@@ -14,9 +14,28 @@ import heroImage from "@assets/WhatsApp_Image_2025-12-13_at_23.49.49_7d55f885_17
 import posScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.18_4192d0ad_1765663551344.jpg";
 import inventoryScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_4a410ec0_1765663551457.jpg";
 import reportsScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_07d2f0f7_1765663551459.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { Review } from "@shared/schema";
+
+// Track CTA clicks
+const trackCTAClick = async (action: string) => {
+  try {
+    await fetch("/api/analytics/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        eventType: "cta_click",
+        page: "landing",
+        action: action,
+        referrer: document.referrer || "direct",
+        userAgent: navigator.userAgent,
+      }),
+    });
+  } catch (error) {
+    console.error("Failed to track CTA click:", error);
+  }
+};
 
 const PRICING_PLANS = [
   {
@@ -160,6 +179,7 @@ export default function Home() {
 
   const handleRequest = (e: React.FormEvent) => {
     e.preventDefault();
+    trackCTAClick("license_request_submitted");
     
     const message = `Hello, I would like to request a license for AgroVet POS.\n\nShop Name: ${shopName}\nPhone: ${phoneNumber}`;
     
@@ -212,11 +232,16 @@ export default function Home() {
               
               <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4 mb-6 md:mb-8 px-4">
                 <Button size="lg" className="rounded-full text-sm md:text-base px-5 md:px-6 shadow-xl shadow-primary/20" data-testid="button-get-started" asChild>
-                  <a href="https://bit.ly/agrovet-pos-app" target="_blank" rel="noopener noreferrer">
+                  <a 
+                    href="https://bit.ly/agrovet-pos-app" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onClick={() => trackCTAClick("get_started_hero")}
+                  >
                     Get Started Free <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
                   </a>
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full text-sm md:text-base px-5 md:px-6 bg-white/10 backdrop-blur-sm border-white/30 text-white" data-testid="button-watch-demo">
+                <Button size="lg" variant="outline" className="rounded-full text-sm md:text-base px-5 md:px-6 bg-white/10 backdrop-blur-sm border-white/30 text-white" data-testid="button-watch-demo" onClick={() => trackCTAClick("watch_demo")}>
                   <Play className="mr-2 h-4 w-4 md:h-5 md:w-5" /> Watch Demo
                 </Button>
               </div>

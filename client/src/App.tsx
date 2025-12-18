@@ -14,6 +14,26 @@ import AdminClients from "@/pages/admin/Clients";
 import AdminContent from "@/pages/admin/Content";
 import AdminReviews from "@/pages/admin/Reviews";
 import AdminSettings from "@/pages/admin/Settings";
+import { useEffect } from "react";
+
+// Track page views on initial load
+const trackPageView = async () => {
+  try {
+    await fetch("/api/analytics/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        eventType: "page_view",
+        page: "landing",
+        action: "landing_viewed",
+        referrer: document.referrer || "direct",
+        userAgent: navigator.userAgent,
+      }),
+    });
+  } catch (error) {
+    console.error("Failed to track page view:", error);
+  }
+};
 
 function Router() {
   return (
@@ -39,6 +59,10 @@ function Router() {
 }
 
 function App() {
+  useEffect(() => {
+    trackPageView();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import {
   type User,
   type InsertUser,
@@ -14,12 +14,15 @@ import {
   type InsertReview,
   type Setting,
   type InsertSetting,
+  type PageView,
+  type InsertPageView,
   users,
   clients,
   licenses,
   content,
   reviews,
   settings,
+  pageViews,
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -75,6 +78,10 @@ export interface IStorage {
   getSetting(key: string): Promise<Setting | undefined>;
   setSetting(key: string, value: string): Promise<Setting>;
   getAllSettings(): Promise<Setting[]>;
+
+  // Analytics
+  trackPageView(view: InsertPageView): Promise<PageView>;
+  getAnalytics(eventType?: string, page?: string): Promise<PageView[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -225,6 +232,31 @@ export class DatabaseStorage implements IStorage {
 
   async getAllSettings(): Promise<Setting[]> {
     return await db.select().from(settings);
+  }
+
+  // Analytics
+  async trackPageView(view: InsertPageView): Promise<PageView> {
+    const result = await db.insert(pageViews).values(view).returning();
+    return result[0];
+  }
+
+  async getAnalytics(eventType?: string, page?: string): Promise<PageView[]> {
+    let conditions = [];
+    
+    if (eventType) {
+      conditions.push(eq(pageViews.eventType, eventType));
+    }
+    if (page) {
+      conditions.push(eq(pageViews.page, page));
+    }
+    
+    const query = conditions.length === 0
+      ? db.select().from(pageViews)
+      : conditions.length === 1
+        ? db.select().from(pageViews).where(conditions[0])
+        : db.select().from(pageViews).where(and(...conditions));
+    
+    return await query.orderBy(desc(pageViews.timestamp));
   }
 }
 

@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertClientSchema, insertLicenseSchema, insertContentSchema, insertReviewSchema } from "@shared/schema";
+import { insertClientSchema, insertLicenseSchema, insertContentSchema, insertReviewSchema, insertPageViewSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { z } from "zod";
 import OpenAI from "openai";
@@ -379,6 +379,33 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("AI generation error:", error);
       res.status(500).json({ message: error.message || "Failed to generate content" });
+    }
+  });
+
+  // Marketing Analytics API
+  app.post("/api/analytics/track", async (req, res) => {
+    try {
+      const result = insertPageViewSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ message: fromZodError(result.error).message });
+      }
+      const pageView = await storage.trackPageView(result.data);
+      res.status(201).json(pageView);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/analytics", async (req, res) => {
+    try {
+      const { eventType, page } = req.query;
+      const analytics = await storage.getAnalytics(
+        eventType as string | undefined,
+        page as string | undefined
+      );
+      res.json(analytics);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
     }
   });
 

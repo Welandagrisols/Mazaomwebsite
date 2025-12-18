@@ -113,3 +113,22 @@ export const insertSettingSchema = createInsertSchema(settings).omit({
 
 export type Setting = typeof settings.$inferSelect;
 export type InsertSetting = z.infer<typeof insertSettingSchema>;
+
+// Marketing Analytics table
+export const pageViews = pgTable("page_views", {
+  id: serial("id").primaryKey(),
+  eventType: text("event_type").notNull(), // "page_view", "cta_click", "nav_click", etc.
+  page: text("page").notNull().default("landing"), // landing, admin, etc.
+  action: text("action"), // specific action like "get_started_clicked", "nav_features_clicked"
+  referrer: text("referrer"), // utm_source, utm_medium, utm_campaign data
+  userAgent: text("user_agent"),
+  timestamp: timestamp("timestamp").notNull().defaultNow(),
+});
+
+export const insertPageViewSchema = createInsertSchema(pageViews).omit({
+  id: true,
+  timestamp: true,
+});
+
+export type PageView = typeof pageViews.$inferSelect;
+export type InsertPageView = z.infer<typeof insertPageViewSchema>;
