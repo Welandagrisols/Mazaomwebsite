@@ -40,6 +40,9 @@ Current database tables:
 - `users` - Admin authentication
 - `clients` - AgroVet shop information (name, location, phone, status)
 - `licenses` - Software license keys with expiry dates and client associations
+- `content` - Blog posts and announcements with AI-powered generation
+- `reviews` - Client reviews with approval workflow (pending/approved/rejected)
+- `settings` - Application settings including API keys stored securely in database
 
 ### Shared Code
 The `shared/` directory contains code used by both frontend and backend:
@@ -75,3 +78,31 @@ The `shared/` directory contains code used by both frontend and backend:
 - DM Sans (body text)
 - Outfit (display/headings)
 - Loaded from Google Fonts CDN
+
+### AI Integration
+- OpenAI API for AI-powered content generation
+- API key stored securely in Supabase settings table
+- Supports blog post and announcement generation
+
+## Admin Features
+
+### Content Management
+- Create and manage blog posts with AI assistance
+- Generate content using OpenAI GPT-4o model
+- Support for blog posts and announcements
+- Draft/Published status workflow
+- Access via `/admin/content`
+
+### Review Moderation
+- Client review submission system
+- Approval workflow: pending → approved/rejected
+- Approved reviews displayed on landing page
+- Access via `/admin/reviews`
+
+### Settings Management
+- Secure OpenAI API key storage in database
+- Database connection status display
+- Access via `/admin/settings`
+
+## Admin Navigation Order
+Dashboard → License Keys → Create Content → Reviews → Clients → Settings
