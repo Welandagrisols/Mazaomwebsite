@@ -32,6 +32,37 @@ export async function registerRoutes(
     }
   });
 
+  // Change admin password
+  app.post("/api/auth/change-password", async (req, res) => {
+    try {
+      const { currentPassword, newPassword } = req.body;
+
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: "Current and new passwords are required" });
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).json({ message: "New password must be at least 6 characters" });
+      }
+
+      const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+
+      if (currentPassword !== ADMIN_PASSWORD) {
+        return res.status(401).json({ message: "Current password is incorrect" });
+      }
+
+      // Update environment variable (for this session) and settings
+      process.env.ADMIN_PASSWORD = newPassword;
+      
+      // Also save to settings for persistence
+      await storage.createOrUpdateSetting("ADMIN_PASSWORD", newPassword);
+
+      res.json({ success: true, message: "Password changed successfully" });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   // Clients API
   app.get("/api/clients", async (_req, res) => {
     try {

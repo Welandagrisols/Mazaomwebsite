@@ -77,6 +77,7 @@ export interface IStorage {
   // Settings
   getSetting(key: string): Promise<Setting | undefined>;
   setSetting(key: string, value: string): Promise<Setting>;
+  createOrUpdateSetting(key: string, value: string): Promise<Setting>;
   getAllSettings(): Promise<Setting[]>;
 
   // Analytics
@@ -228,6 +229,10 @@ export class DatabaseStorage implements IStorage {
     }
     const result = await db.insert(settings).values({ key, value }).returning();
     return result[0];
+  }
+
+  async createOrUpdateSetting(key: string, value: string): Promise<Setting> {
+    return this.setSetting(key, value);
   }
 
   async getAllSettings(): Promise<Setting[]> {
