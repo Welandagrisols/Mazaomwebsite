@@ -204,45 +204,45 @@ export async function registerRoutes(
     try {
       const { key, phone } = req.body;
 
-      if (!key || !phone) {
-        return res.status(400).json({ message: "License key and phone number are required" });
+      if (!key) {
+        return res.status(400).json({ success: false, message: "License key is required" });
       }
 
       const license = await storage.getLicenseByKey(key);
       if (!license) {
-        return res.status(404).json({ message: "License key not found" });
-      }
-
-      // Verify phone number matches
-      if (license.phone && license.phone !== phone) {
-        return res.status(401).json({ message: "Phone number does not match this license" });
+        return res.status(404).json({ success: false, message: "License key not found" });
       }
 
       // Check if license has expired
       const expiryDate = new Date(license.expiry);
       const today = new Date();
       if (expiryDate < today) {
-        return res.status(403).json({ message: "License has expired" });
+        return res.status(403).json({ success: false, message: "License has expired" });
       }
 
-      // Check if license is already in use or active
-      if (license.status === "Expired") {
-        return res.status(403).json({ message: "License has expired" });
+      // Check if license is already in use
+      if (license.status === "Used" || license.status === "Expired") {
+        return res.status(403).json({ success: false, message: "License is already in use or has expired" });
       }
 
-      // Return license details
+      // Verify phone number if provided
+      if (phone && license.phone && license.phone !== phone) {
+        return res.status(401).json({ success: false, message: "Phone number does not match this license" });
+      }
+
+      // Return success
       res.json({
         success: true,
+        message: "License verified successfully",
         license: {
           key: license.key,
           shop: license.shop,
           status: license.status,
           expiry: license.expiry,
-          phone: license.phone,
         }
       });
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ success: false, message: error.message });
     }
   });
 
