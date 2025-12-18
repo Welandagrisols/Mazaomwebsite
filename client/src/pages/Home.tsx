@@ -197,7 +197,7 @@ export default function Home() {
               
               <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4 mb-6 md:mb-8 px-4">
                 <Button size="lg" className="rounded-full text-sm md:text-base px-5 md:px-6 shadow-xl shadow-primary/20" data-testid="button-get-started" asChild>
-                  <a href="https://expo.dev/artifacts/eas/4t2t8g33j2uvUnVJwPPpST.apk" target="_blank" rel="noopener noreferrer">
+                  <a href="https://bit.ly/agrovet-pos-app" target="_blank" rel="noopener noreferrer">
                     Get Started Free <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
                   </a>
                 </Button>

@@ -56,7 +56,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-2 md:gap-4">
           <Button className="hidden sm:flex bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-full px-4 md:px-6 shadow-lg shadow-primary/20" asChild>
-            <a href="https://expo.dev/artifacts/eas/4t2t8g33j2uvUnVJwPPpST.apk" target="_blank" rel="noopener noreferrer" data-testid="button-get-started-nav">
+            <a href="https://bit.ly/agrovet-pos-app" target="_blank" rel="noopener noreferrer" data-testid="button-get-started-nav">
               Get Started
             </a>
           </Button>
@@ -93,7 +93,7 @@ export function Navbar() {
                 </nav>
                 
                 <Button className="w-full rounded-full" asChild>
-                  <a href="https://expo.dev/artifacts/eas/4t2t8g33j2uvUnVJwPPpST.apk" target="_blank" rel="noopener noreferrer" data-testid="button-get-started-mobile">
+                  <a href="https://bit.ly/agrovet-pos-app" target="_blank" rel="noopener noreferrer" data-testid="button-get-started-mobile">
                     Download App
                   </a>
                 </Button>
