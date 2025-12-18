@@ -15,6 +15,8 @@ import posScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.18_4192d0a
 import inventoryScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_4a410ec0_1765663551457.jpg";
 import reportsScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_07d2f0f7_1765663551459.jpg";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import type { Review } from "@shared/schema";
 
 const PRICING_PLANS = [
   {
@@ -142,6 +144,19 @@ const FAQ_ITEMS = [
 export default function Home() {
   const [shopName, setShopName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
+  const { data: approvedReviews } = useQuery<Review[]>({
+    queryKey: ["/api/reviews/approved"],
+  });
+
+  const displayTestimonials = approvedReviews && approvedReviews.length > 0 
+    ? approvedReviews.map(r => ({
+        name: r.clientName,
+        business: r.business,
+        rating: r.rating,
+        text: r.text,
+      }))
+    : TESTIMONIALS;
 
   const handleRequest = (e: React.FormEvent) => {
     e.preventDefault();
@@ -443,7 +458,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 max-w-5xl mx-auto">
-            {TESTIMONIALS.map((testimonial, index) => (
+            {displayTestimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
