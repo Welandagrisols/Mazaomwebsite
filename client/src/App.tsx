@@ -14,6 +14,7 @@ import AdminClients from "@/pages/admin/Clients";
 import AdminContent from "@/pages/admin/Content";
 import AdminReviews from "@/pages/admin/Reviews";
 import AdminSettings from "@/pages/admin/Settings";
+import AdminAnalytics from "@/pages/admin/Analytics";
 import { useEffect } from "react";
 
 // Track page views on initial load
@@ -47,6 +48,7 @@ function Router() {
       <Route path="/admin/login" component={AdminLogin} />
       
       <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin/analytics" component={AdminAnalytics} />
       <Route path="/admin/licenses" component={AdminLicenses} />
       <Route path="/admin/content" component={AdminContent} />
       <Route path="/admin/reviews" component={AdminReviews} />

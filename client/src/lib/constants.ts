@@ -1,4 +1,4 @@
-import { LayoutDashboard, Key, Users, BarChart3, Package, ScanLine, Smartphone, CloudUpload, WifiOff, LogOut, FileText, Star, Settings } from "lucide-react";
+import { LayoutDashboard, Key, Users, BarChart3, Package, ScanLine, Smartphone, CloudUpload, WifiOff, LogOut, FileText, Star, Settings, TrendingUp } from "lucide-react";
 
 export const FEATURES = [
   {
@@ -105,6 +105,7 @@ export const MOCK_CLIENTS = [
 
 export const ADMIN_NAV_ITEMS = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Analytics", href: "/admin/analytics", icon: TrendingUp },
   { label: "License Keys", href: "/admin/licenses", icon: Key },
   { label: "Create Content", href: "/admin/content", icon: FileText },
   { label: "Reviews", href: "/admin/reviews", icon: Star },

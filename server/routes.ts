@@ -409,5 +409,97 @@ export async function registerRoutes(
     }
   });
 
+  // AI Insights for Analytics
+  app.get("/api/analytics/insights", async (req, res) => {
+    try {
+      const analytics = await storage.getAnalytics();
+      
+      if (!analytics || analytics.length === 0) {
+        return res.json({ conclusion: "No data yet", suggestions: [] });
+      }
+
+      // Calculate metrics
+      const pageViews = analytics.filter(a => a.eventType === "page_view").length;
+      const ctaClicks = analytics.filter(a => a.eventType === "cta_click").length;
+      const conversionRate = pageViews > 0 ? ((ctaClicks / pageViews) * 100).toFixed(1) : 0;
+
+      // Group by action
+      const actionStats: any = {};
+      analytics.forEach(a => {
+        const action = a.action || "unknown";
+        actionStats[action] = (actionStats[action] || 0) + 1;
+      });
+
+      const topPerformers = Object.entries(actionStats)
+        .map(([action, count]: [string, any]) => ({
+          action,
+          count,
+          percentage: ((count / ctaClicks) * 100).toFixed(1)
+        }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 3);
+
+      const apiKey = process.env.OPENAI_API_KEY;
+      if (!apiKey) {
+        return res.json({
+          conclusion: `Your landing page has attracted ${pageViews} visitors with ${ctaClicks} CTA interactions (${conversionRate}% conversion rate).`,
+          suggestions: [
+            "Continue monitoring traffic sources to identify high-performing channels",
+            "Test A/B variations of your CTA buttons to improve conversion rates",
+            "Focus on the top-performing CTAs and replicate their success"
+          ],
+          topPerformers
+        });
+      }
+
+      const openai = new OpenAI({ apiKey });
+
+      const prompt = `Analyze this landing page analytics data and provide actionable insights:
+- Total Page Views: ${pageViews}
+- CTA Clicks: ${ctaClicks}
+- Conversion Rate: ${conversionRate}%
+- Top CTAs: ${topPerformers.map(p => `${p.action} (${p.count} clicks)`).join(", ")}
+
+Provide:
+1. A brief conclusion about overall performance
+2. 3-4 specific, actionable suggestions to improve engagement
+Format as JSON with keys "conclusion" and "suggestions" (array of strings).`;
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: "You are a marketing analytics expert. Provide insights about landing page performance." },
+          { role: "user", content: prompt }
+        ],
+        max_tokens: 600,
+        temperature: 0.7,
+      });
+
+      const content = completion.choices[0]?.message?.content || "";
+      let insights = { conclusion: "", suggestions: [] };
+
+      try {
+        const parsed = JSON.parse(content);
+        insights = {
+          conclusion: parsed.conclusion || "",
+          suggestions: Array.isArray(parsed.suggestions) ? parsed.suggestions : ([] as string[])
+        };
+      } catch {
+        insights = {
+          conclusion: content.substring(0, 300),
+          suggestions: ["Review the raw AI response above for detailed analysis"]
+        };
+      }
+
+      res.json({
+        ...insights,
+        topPerformers
+      });
+    } catch (error: any) {
+      console.error("Analytics insights error:", error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   return httpServer;
 }
