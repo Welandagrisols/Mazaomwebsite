@@ -52,3 +52,4 @@ integrations = ["javascript_openai:1.0.0"]
 [userenv.shared]
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "admin123"
+CLOUDFLARE_API_TOKEN = "koqoI4ZP3LQWwE8YWSmwT5pd14ooUjAut6_Jwcak"
