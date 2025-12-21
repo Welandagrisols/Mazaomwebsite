@@ -1,6 +1,7 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
 import { eq, desc, and } from "drizzle-orm";
+import bcryptjs from "bcryptjs";
 import {
   type User,
   type InsertUser,
@@ -98,7 +99,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const result = await db.insert(users).values(insertUser).returning();
+    const hashedPassword = await bcryptjs.hash(insertUser.password, 10);
+    const result = await db.insert(users).values({ ...insertUser, password: hashedPassword }).returning();
+    return result[0];
+  }
+
+  async verifyPassword(storedHash: string, plainPassword: string): Promise<boolean> {
+    return bcryptjs.compare(plainPassword, storedHash);
+  }
+
+  async updateUserPassword(username: string, newPassword: string): Promise<User | undefined> {
+    const hashedPassword = await bcryptjs.hash(newPassword, 10);
+    const result = await db.update(users).set({ password: hashedPassword }).where(eq(users.username, username)).returning();
     return result[0];
   }
 

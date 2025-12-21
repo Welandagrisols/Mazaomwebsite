@@ -5,12 +5,50 @@ import { insertClientSchema, insertLicenseSchema, insertContentSchema, insertRev
 import { fromZodError } from "zod-validation-error";
 import { z } from "zod";
 import OpenAI from "openai";
+import bcryptjs from "bcryptjs";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // Auth API
+  // Check if admin is set up
+  app.get("/api/auth/setup-status", async (_req, res) => {
+    try {
+      const admin = await storage.getUserByUsername("admin");
+      res.json({ isSetup: !!admin });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Initial admin setup
+  app.post("/api/auth/setup", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+
+      if (!username || !password) {
+        return res.status(400).json({ message: "Username and password are required" });
+      }
+
+      if (password.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
+      }
+
+      // Check if admin already exists
+      const existingAdmin = await storage.getUserByUsername(username);
+      if (existingAdmin) {
+        return res.status(400).json({ message: "Admin user already exists. Please login instead." });
+      }
+
+      // Create admin user
+      const user = await storage.createUser({ username, password });
+      res.status(201).json({ success: true, message: "Admin account created successfully", user: { id: user.id, username: user.username } });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Login
   app.post("/api/auth/login", async (req, res) => {
     try {
       const { username, password } = req.body;
@@ -19,44 +57,46 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Username and password are required" });
       }
 
-      const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-      const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
-
-      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-        return res.json({ success: true, user: { id: "admin", username: ADMIN_USERNAME } });
+      const user = await storage.getUserByUsername(username);
+      if (!user) {
+        return res.status(401).json({ message: "Invalid username or password" });
       }
 
-      res.status(401).json({ message: "Invalid username or password" });
+      const passwordMatch = await storage.verifyPassword(user.password, password);
+      if (!passwordMatch) {
+        return res.status(401).json({ message: "Invalid username or password" });
+      }
+
+      res.json({ success: true, user: { id: user.id, username: user.username } });
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }
   });
 
-  // Change admin password
+  // Change password
   app.post("/api/auth/change-password", async (req, res) => {
     try {
-      const { currentPassword, newPassword } = req.body;
+      const { username, currentPassword, newPassword } = req.body;
 
-      if (!currentPassword || !newPassword) {
-        return res.status(400).json({ message: "Current and new passwords are required" });
+      if (!username || !currentPassword || !newPassword) {
+        return res.status(400).json({ message: "Username, current password, and new password are required" });
       }
 
       if (newPassword.length < 6) {
         return res.status(400).json({ message: "New password must be at least 6 characters" });
       }
 
-      const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+      const user = await storage.getUserByUsername(username);
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
 
-      if (currentPassword !== ADMIN_PASSWORD) {
+      const passwordMatch = await storage.verifyPassword(user.password, currentPassword);
+      if (!passwordMatch) {
         return res.status(401).json({ message: "Current password is incorrect" });
       }
 
-      // Update environment variable (for this session) and settings
-      process.env.ADMIN_PASSWORD = newPassword;
-      
-      // Also save to settings for persistence
-      await storage.createOrUpdateSetting("ADMIN_PASSWORD", newPassword);
-
+      await storage.updateUserPassword(username, newPassword);
       res.json({ success: true, message: "Password changed successfully" });
     } catch (error: any) {
       res.status(500).json({ message: error.message });

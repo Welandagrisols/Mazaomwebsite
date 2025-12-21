@@ -2,48 +2,43 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation } from "wouter";
 import logo from "@assets/generated_images/clean_vector_logo_of_plant_with_digital_network_roots.png";
 import { useToast } from "@/hooks/use-toast";
 
-export default function AdminLogin() {
+export default function AdminSetup() {
   const [, setLocation] = useLocation();
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [isCheckingSetup, setIsCheckingSetup] = useState(true);
   const { toast } = useToast();
 
-  useEffect(() => {
-    // Check if admin is set up
-    const checkSetup = async () => {
-      try {
-        const response = await fetch("/api/auth/setup-status");
-        if (response.ok) {
-          const data = await response.json();
-          if (!data.isSetup) {
-            setLocation("/admin/setup");
-          }
-        }
-      } catch (err) {
-        console.error("Error checking setup status", err);
-      } finally {
-        setIsCheckingSetup(false);
-      }
-    };
-
-    checkSetup();
-  }, [setLocation]);
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSetup = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
+    if (!username || !password || !confirmPassword) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/auth/setup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -52,10 +47,11 @@ export default function AdminLogin() {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("adminUser", JSON.stringify(data.user));
+        toast({ description: "Admin account created successfully!" });
         setLocation("/admin");
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Invalid credentials. Please try again.");
+        setError(errorData.message || "Setup failed. Please try again.");
       }
     } catch (err: any) {
       setError("Connection error. Please try again.");
@@ -63,18 +59,6 @@ export default function AdminLogin() {
       setLoading(false);
     }
   };
-
-  if (isCheckingSetup) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-muted/20">
-        <Card className="w-full max-w-md">
-          <CardContent className="pt-6 text-center">
-            <p>Loading...</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/20 px-4">
@@ -84,12 +68,12 @@ export default function AdminLogin() {
             <img src={logo} alt="Logo" className="h-full w-full object-contain" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-display font-bold">Admin Login</CardTitle>
-            <CardDescription>Enter your credentials to access the dashboard</CardDescription>
+            <CardTitle className="text-2xl font-display font-bold">Welcome to AgroVet Admin</CardTitle>
+            <CardDescription>Create your admin credentials to get started</CardDescription>
           </div>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleSetup} className="space-y-4">
             {error && (
               <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
                 {error}
@@ -100,11 +84,11 @@ export default function AdminLogin() {
               <Input 
                 id="username" 
                 type="text" 
-                placeholder="Enter your username" 
+                placeholder="Choose your username" 
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required 
-                data-testid="input-username"
+                data-testid="input-setup-username"
               />
             </div>
             <div className="space-y-2">
@@ -112,13 +96,27 @@ export default function AdminLogin() {
               <Input 
                 id="password" 
                 type="password" 
+                placeholder="Minimum 6 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required 
+                data-testid="input-setup-password"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input 
+                id="confirmPassword" 
+                type="password" 
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required 
+                data-testid="input-setup-confirm"
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={loading} data-testid="button-setup">
+              {loading ? "Setting up..." : "Create Admin Account"}
             </Button>
           </form>
         </CardContent>
