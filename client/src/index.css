@@ -57,55 +57,55 @@
 }
 
 :root {
-  /* Warm Earth & Forest Green Theme */
-  --background: 40 30% 97%; /* Warm Cream */
-  --foreground: 30 20% 15%; /* Warm Dark Brown */
+  /* Restored Authentic Brand Colors: Deep Forest Green & Rich Sand */
+  --background: 45 35% 98%; /* Slightly warmer cream */
+  --foreground: 30 25% 12%; /* Deeper, richer brown for better contrast */
   
   --card: 0 0% 100%;
-  --card-foreground: 30 20% 15%;
+  --card-foreground: 30 25% 12%;
   
   --popover: 0 0% 100%;
-  --popover-foreground: 30 20% 15%;
+  --popover-foreground: 30 25% 12%;
   
-  /* Forest Green - Rich and vibrant */
-  --primary: 145 65% 32%; 
+  /* Authentic Forest Green */
+  --primary: 155 70% 28%; 
   --primary-foreground: 0 0% 100%;
   
-  /* Warm Beige/Tan */
-  --secondary: 35 40% 92%;
-  --secondary-foreground: 30 50% 25%;
+  /* Rich Sand/Tan */
+  --secondary: 40 45% 90%;
+  --secondary-foreground: 30 55% 22%;
   
-  --muted: 35 20% 93%;
-  --muted-foreground: 30 15% 45%;
+  --muted: 40 25% 94%;
+  --muted-foreground: 30 15% 40%;
   
-  /* Warm Orange Accent */
-  --accent: 25 80% 50%; 
+  /* Warm Harvest Orange Accent */
+  --accent: 28 85% 52%; 
   --accent-foreground: 0 0% 100%;
   
-  --destructive: 0 84% 60%;
+  --destructive: 0 84% 55%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 35 20% 88%;
-  --input: 35 20% 88%;
-  --ring: 145 65% 32%;
+  --border: 40 20% 86%;
+  --input: 40 20% 86%;
+  --ring: 155 70% 28%;
 
-  --radius: 0.5rem;
+  --radius: 0.75rem; /* Slightly more rounded for a modern friendly feel */
   
-  /* Chart colors with warm earth tones */
-  --chart-1: 145 65% 32%; /* Green */
-  --chart-2: 25 80% 50%; /* Orange */
-  --chart-3: 35 60% 45%;  /* Tan/Brown */
-  --chart-4: 175 50% 40%; /* Teal */
-  --chart-5: 280 50% 45%;
+  /* Chart colors */
+  --chart-1: 155 70% 28%;
+  --chart-2: 28 85% 52%;
+  --chart-3: 40 60% 40%;
+  --chart-4: 180 50% 35%;
+  --chart-5: 300 45% 42%;
   
-  --sidebar: 30 25% 12%; /* Warm Dark Sidebar */
-  --sidebar-foreground: 40 20% 96%;
-  --sidebar-primary: 145 65% 40%;
+  --sidebar: 30 30% 10%; /* Much deeper sidebar for premium feel */
+  --sidebar-foreground: 45 20% 98%;
+  --sidebar-primary: 155 70% 35%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 30 20% 18%;
-  --sidebar-accent-foreground: 40 20% 96%;
-  --sidebar-border: 30 20% 18%;
-  --sidebar-ring: 145 65% 40%;
+  --sidebar-accent: 30 25% 15%;
+  --sidebar-accent-foreground: 45 20% 98%;
+  --sidebar-border: 30 25% 15%;
+  --sidebar-ring: 155 70% 35%;
 }
 
 .dark {

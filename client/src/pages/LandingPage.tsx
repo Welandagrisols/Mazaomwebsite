@@ -214,15 +214,15 @@ export default function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Badge variant="outline" className="mb-4 border-white/30 text-white">
+            <Badge variant="outline" className="mb-6 px-4 py-1 border-white/40 text-white bg-white/10 backdrop-blur-sm text-sm font-semibold">
               Powered by Agrisols Systems
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight leading-tight">
               AgroVet <span className="text-primary">POS</span>
             </h1>
-            <h2 className="text-xl md:text-3xl mb-6">Smart Point of Sale for Agricultural & Veterinary Shops</h2>
-            <p className="max-w-2xl mx-auto text-white/80 mb-8">
-              The complete solution for inventory management, sales tracking, and AI-powered receipt scanning.
+            <h2 className="text-2xl md:text-4xl font-bold mb-8 text-white/95">Modern Shop Management for Agribusiness</h2>
+            <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90 mb-10 leading-relaxed font-medium">
+              The ultimate POS solution for inventory, sales tracking, and AI-powered automation—tailored for Kenya's agricultural sector.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button size="lg" className="rounded-full bg-primary hover-elevate" asChild>
@@ -382,64 +382,120 @@ export default function LandingPage() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 bg-muted/50">
-        <div className="container mx-auto px-4 max-w-xl">
-          <h2 className="text-3xl font-bold text-center mb-12">Contact Us</h2>
-          <Card>
-            <CardContent className="pt-6">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl><Input placeholder="Your Name" {...field} /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl><Input placeholder="your@email.com" {...field} /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="subject"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Subject</FormLabel>
-                        <FormControl><Input placeholder="How can we help?" {...field} /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Message</FormLabel>
-                        <FormControl><Textarea placeholder="Tell us more..." className="min-h-[120px]" {...field} /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" className="w-full rounded-full hover-elevate" disabled={mutation.isPending}>
-                    {mutation.isPending ? "Sending..." : "Send Message"}
-                  </Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+      <section id="contact" className="py-24 bg-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-4xl font-bold mb-6">Let's <span className="text-primary">Grow</span> Together</h2>
+              <p className="text-xl text-muted-foreground mb-8">
+                Ready to transform your AgroVet business? Our team is here to help you set up and get the most out of AgroVet POS.
+              </p>
+              
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <Smartphone className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg">Call or WhatsApp</h4>
+                    <p className="text-muted-foreground">+254 710 546 911</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <Users className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg">Business Hours</h4>
+                    <p className="text-muted-foreground">Monday - Saturday: 8:00 AM - 6:00 PM</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <Shield className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg">Support</h4>
+                    <p className="text-muted-foreground">24/7 technical support for yearly subscribers</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Card className="border-none shadow-2xl">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-2xl">Send us a message</CardTitle>
+                  <CardDescription>We'll get back to you within 2 hours.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Full Name</FormLabel>
+                              <FormControl><Input placeholder="John Doe" className="bg-muted/50" {...field} /></FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email Address</FormLabel>
+                              <FormControl><Input placeholder="john@example.com" className="bg-muted/50" {...field} /></FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <FormField
+                        control={form.control}
+                        name="subject"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Subject</FormLabel>
+                            <FormControl><Input placeholder="Pricing, Setup, or Support?" className="bg-muted/50" {...field} /></FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="message"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>How can we help you?</FormLabel>
+                            <FormControl><Textarea placeholder="Tell us about your shop..." className="min-h-[120px] bg-muted/50" {...field} /></FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button type="submit" size="lg" className="w-full rounded-xl hover-elevate font-bold text-lg h-12 bg-accent hover:bg-accent/90 border-none shadow-lg text-white" disabled={mutation.isPending}>
+                        {mutation.isPending ? "Sending Your Message..." : "Get Started Now"}
+                      </Button>
+                    </form>
+                  </Form>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         </div>
       </section>
 
