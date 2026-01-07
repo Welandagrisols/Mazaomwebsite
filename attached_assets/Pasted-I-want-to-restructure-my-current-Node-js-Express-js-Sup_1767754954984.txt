@@ -1,0 +1,36 @@
+I want to restructure my current Node.js / Express.js + Supabase project into a clean, professional SaaS setup while keeping the existing POS Android app fully functional. Implement the following:
+
+1. **Landing Page (Public)**
+   - Separate frontend project/folder (`/landing-page`) in Replit.
+   - Publicly accessible, Google-indexable.
+   - Shows POS description, pricing, FAQ, contact form.
+   - Includes buttons like "Start Free", "Download App", linking to the existing Expo-built POS Android app.
+   - Connects to Supabase in **read-only mode** for content and contact form submissions.
+   - No admin routes or license key logic.
+   - Prepare it so it can later be migrated to a custom domain.
+
+2. **Admin Dashboard (Private)**
+   - Separate frontend project/folder (`/admin-dashboard`) in Replit.
+   - Accessible only to me via Supabase Auth.
+   - Allows managing landing page content, generating license keys, activating clients.
+   - Connects to the **same Supabase project** as the API, full privileges.
+   - No public access, no links from landing page.
+   - Enforce RLS for security.
+   - Optional improvements for usability (modern UI, mobile-friendly, easy content management).
+
+3. **POS API (Existing)**
+   - Keep existing Express API `/api` as is.
+   - Continues handling license validation, shop creation, POS data storage.
+   - Connects to the **same Supabase project**.
+   - Restrict CORS to the landing page, admin dashboard, and POS app only.
+
+4. **Supabase Integration**
+   - Ensure both landing page and admin dashboard use environment variables for Supabase credentials.
+   - Landing page is read-only; admin dashboard has full access.
+   - Maintain multi-tenancy: No table creation per shop; each shop’s data isolated using `shop_id` and RLS.
+
+5. **Deployment**
+   - Landing page and admin dashboard should be deployable to **Cloudflare Pages or similar free hosting** with current Replit setup.
+   - Ensure smooth upgrade path to custom domains later.
+
+6. **File structure suggestion in Replit**
