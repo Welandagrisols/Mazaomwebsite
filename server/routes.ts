@@ -14,8 +14,9 @@ export async function registerRoutes(
   // Check if admin is set up
   app.get("/api/auth/setup-status", async (_req, res) => {
     try {
-      const admin = await storage.getUserByUsername("admin");
-      res.json({ isSetup: !!admin });
+      const allUsers = await storage.getAllUsers?.() || [];
+      // If any user exists, setup is considered complete
+      res.json({ isSetup: allUsers.length > 0 });
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }
@@ -98,6 +99,29 @@ export async function registerRoutes(
 
       await storage.updateUserPassword(username, newPassword);
       res.json({ success: true, message: "Password changed successfully" });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Clients API
+  app.get("/api/admin/users", async (_req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      res.json(users.map(u => ({ id: u.id, username: u.username })));
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.delete("/api/admin/users/:username", async (req, res) => {
+    try {
+      const { username } = req.params;
+      const success = await storage.deleteUser?.(username);
+      if (!success) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.status(204).send();
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }
