@@ -550,6 +550,17 @@ export async function registerRoutes(
     }
   });
 
+  // Public Contact Form API
+  app.post("/api/public/contact", async (req, res) => {
+    try {
+      // Logic for contact form submission would go here
+      // For now we'll just acknowledge receipt
+      res.json({ success: true, message: "Thank you for your message. We'll get back to you soon." });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   app.get("/api/analytics", async (req, res) => {
     try {
       const { eventType, page } = req.query;

@@ -131,4 +131,21 @@ export const insertPageViewSchema = createInsertSchema(pageViews).omit({
 });
 
 export type PageView = typeof pageViews.$inferSelect;
-export type InsertPageView = z.infer<typeof insertPageViewSchema>;
+// Contact form submissions
+export const contactSubmissions = pgTable("contact_submissions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  subject: text("subject").notNull(),
+  message: text("message").notNull(),
+  status: text("status").notNull().default("unread"), // unread, read, replied
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
