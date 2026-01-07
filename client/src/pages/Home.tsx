@@ -8,7 +8,7 @@ import { FEATURES } from "@/lib/constants";
 import { 
   CheckCircle2, ArrowRight, Download, Phone, Play, Users, Shield, Clock, 
   Star, Check, MessageCircle, Smartphone, CreditCard, Headphones,
-  ChevronRight
+  ChevronRight, BookOpen
 } from "lucide-react";
 import heroImage from "@assets/WhatsApp_Image_2025-12-13_at_23.49.49_7d55f885_1765665092659.jpg";
 import posScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.18_4192d0ad_1765663551344.jpg";
@@ -16,7 +16,7 @@ import inventoryScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_4
 import reportsScreenshot from "@assets/WhatsApp_Image_2025-12-14_at_01.04.17_07d2f0f7_1765663551459.jpg";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import type { Review } from "@shared/schema";
+import type { Review, Content } from "@shared/schema";
 
 // Track CTA clicks
 const trackCTAClick = async (action: string) => {
@@ -166,6 +166,10 @@ export default function Home() {
 
   const { data: approvedReviews } = useQuery<Review[]>({
     queryKey: ["/api/reviews/approved"],
+  });
+
+  const { data: blogPosts } = useQuery<Content[]>({
+    queryKey: ["/api/content/published"],
   });
 
   const displayTestimonials = approvedReviews && approvedReviews.length > 0 
@@ -512,6 +516,54 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Blog/Resources Section */}
+      {blogPosts && blogPosts.length > 0 && (
+        <section id="blog" className="py-16 md:py-24 bg-background scroll-mt-16">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center mb-10 md:mb-16">
+              <p className="text-xs md:text-sm font-semibold text-primary tracking-wider uppercase mb-3 md:mb-4">Resources</p>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold mb-3 md:mb-4">
+                Latest from <span className="text-primary">AgroVet POS</span>
+              </h2>
+              <p className="text-sm md:text-lg text-muted-foreground max-w-2xl mx-auto">
+                Tips, news, and insights to help you grow your agricultural business.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+              {blogPosts.map((post) => (
+                <motion.div
+                  key={post.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <Card className="h-full hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                      <div className="flex items-center gap-2 text-primary mb-2">
+                        <BookOpen className="h-4 w-4" />
+                        <span className="text-xs font-semibold uppercase tracking-wider">Blog Post</span>
+                      </div>
+                      <CardTitle className="text-xl leading-tight line-clamp-2">{post.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                        {post.excerpt || post.body.substring(0, 150) + "..."}
+                      </p>
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t">
+                        <span className="text-xs text-muted-foreground">By {post.author}</span>
+                        <span className="text-xs text-muted-foreground">{new Date(post.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* FAQ Section */}
       <section id="faq" className="py-16 md:py-24 bg-background scroll-mt-16">
