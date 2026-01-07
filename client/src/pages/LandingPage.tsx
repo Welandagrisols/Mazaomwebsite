@@ -225,12 +225,12 @@ export default function LandingPage() {
               The complete solution for inventory management, sales tracking, and AI-powered receipt scanning.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="rounded-full" asChild>
+              <Button size="lg" className="rounded-full bg-primary hover-elevate" asChild>
                 <a href="https://bit.ly/agrovet-pos-app" target="_blank" rel="noopener noreferrer">
                   Get Started Free <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="rounded-full bg-white/10 border-white/30 text-white">
+              <Button size="lg" variant="outline" className="rounded-full bg-white/10 border-white/30 text-white hover-elevate">
                 <Play className="mr-2 h-4 w-4" /> Watch Demo
               </Button>
             </div>
@@ -266,12 +266,12 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-24 bg-background">
+      <section id="features" className="py-24 bg-background scroll-mt-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-16">Everything you need to run your shop</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {FEATURES.map((feature, index) => (
-              <Card key={index} className="hover-elevate h-full">
+              <Card key={index} className="hover-elevate h-full border-none shadow-md">
                 <CardHeader>
                   <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center mb-4 text-white">
                     <feature.icon className="h-6 w-6" />
@@ -433,7 +433,7 @@ export default function LandingPage() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full rounded-full" disabled={mutation.isPending}>
+                  <Button type="submit" className="w-full rounded-full hover-elevate" disabled={mutation.isPending}>
                     {mutation.isPending ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
