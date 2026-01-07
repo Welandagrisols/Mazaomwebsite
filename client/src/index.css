@@ -70,9 +70,9 @@
 }
 
 :root {
-  /* Restored Authentic Brand Colors: Deep Forest Green & Rich Sand */
-  --background: 45 35% 98%; /* Slightly warmer cream */
-  --foreground: 30 25% 12%; /* Deeper, richer brown for better contrast */
+  /* Restored Authentic Brand Colors from Screenshots */
+  --background: 45 35% 98%; 
+  --foreground: 30 25% 12%; 
   
   --card: 0 0% 100%;
   --card-foreground: 30 25% 12%;
@@ -80,8 +80,8 @@
   --popover: 0 0% 100%;
   --popover-foreground: 30 25% 12%;
   
-  /* Authentic Forest Green */
-  --primary: 155 70% 28%; 
+  /* Primary Green from Screenshots */
+  --primary: 155 70% 32%; 
   --primary-foreground: 0 0% 100%;
   
   /* Rich Sand/Tan */
@@ -89,7 +89,7 @@
   --secondary-foreground: 30 55% 22%;
   
   --muted: 40 25% 94%;
-  --muted-foreground: 30 15% 40%;
+  --muted-foreground: 30 15% 45%;
   
   /* Warm Harvest Orange Accent */
   --accent: 28 85% 52%; 
@@ -98,20 +98,13 @@
   --destructive: 0 84% 55%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 40 20% 86%;
-  --input: 40 20% 86%;
-  --ring: 155 70% 28%;
+  --border: 40 20% 88%;
+  --input: 40 20% 88%;
+  --ring: 155 70% 32%;
 
-  --radius: 0.75rem; /* Slightly more rounded for a modern friendly feel */
+  --radius: 1rem; 
   
-  /* Chart colors */
-  --chart-1: 155 70% 28%;
-  --chart-2: 28 85% 52%;
-  --chart-3: 40 60% 40%;
-  --chart-4: 180 50% 35%;
-  --chart-5: 300 45% 42%;
-  
-  --sidebar: 30 30% 10%; /* Much deeper sidebar for premium feel */
+  --sidebar: 30 30% 10%;
   --sidebar-foreground: 45 20% 98%;
   --sidebar-primary: 155 70% 35%;
   --sidebar-primary-foreground: 0 0% 100%;

@@ -49,37 +49,22 @@ export function Navbar() {
   if (isAdmin) return null;
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
-      <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2 md:gap-3 hover:opacity-90 transition-opacity">
+    <nav className="sticky top-0 z-[100] w-full border-b bg-background/95 backdrop-blur-md">
+      <div className="container mx-auto flex h-16 md:h-20 items-center justify-between gap-4 px-4">
+        <Link href="/" className="flex items-center gap-3">
           <img src={logo} alt="AgroVet POS by Agrisols" className="h-10 md:h-14 w-auto" />
           <div className="flex flex-col">
-            <span className="font-display text-lg md:text-xl font-bold text-foreground leading-none">AgroVet POS</span>
-            <span className="text-[10px] md:text-xs font-medium text-muted-foreground tracking-wide">by Agrisols Systems</span>
+            <span className="font-display text-lg md:text-2xl font-bold text-foreground leading-none">AgroVet POS</span>
+            <span className="text-[10px] md:text-xs font-medium text-muted-foreground uppercase tracking-wider mt-1">by Agrisols Systems</span>
           </div>
         </Link>
 
-        <div className="hidden lg:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <a 
-              key={link.href}
-              href={link.href} 
-              onClick={(e) => scrollToSection(e, link.href)}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-              data-testid={`link-nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-
         <div className="flex items-center gap-2 md:gap-4">
-          <Button className="hidden sm:flex bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-full px-4 md:px-6 shadow-lg shadow-primary/20" asChild>
+          <Button className="hidden sm:flex bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-full px-6 shadow-lg shadow-primary/20 h-11" asChild>
             <a 
               href="https://bit.ly/agrovet-pos-app" 
               target="_blank" 
               rel="noopener noreferrer" 
-              data-testid="button-get-started-nav"
               onClick={() => trackCTAClick("get_started_nav")}
             >
               Get Started
@@ -88,19 +73,19 @@ export function Navbar() {
           
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden" data-testid="button-mobile-menu">
-                <Menu className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="h-11 w-11" data-testid="button-mobile-menu">
+                <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] sm:w-[320px]">
-              <div className="flex flex-col gap-6 mt-6">
-                <div className="flex items-center gap-2">
-                  <img src={logo} alt="AgroVet POS" className="h-10 w-auto" />
-                  <span className="font-display text-lg font-bold">AgroVet POS</span>
+            <SheetContent side="right" className="w-[300px]">
+              <div className="flex flex-col gap-8 mt-10">
+                <div className="flex items-center gap-3">
+                  <img src={logo} alt="AgroVet POS" className="h-12 w-auto" />
+                  <span className="font-display text-xl font-bold">AgroVet POS</span>
                 </div>
                 
-                <nav className="flex flex-col gap-4">
+                <nav className="flex flex-col gap-2">
                   {navLinks.map((link) => (
                     <a 
                       key={link.href}
@@ -109,20 +94,19 @@ export function Navbar() {
                         scrollToSection(e, link.href);
                         setMobileMenuOpen(false);
                       }}
-                      className="text-base font-medium text-foreground hover:text-primary transition-colors py-2"
-                      data-testid={`link-mobile-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                      className="text-lg font-bold text-foreground hover:text-primary transition-colors py-3 border-b border-muted flex items-center justify-between group"
                     >
                       {link.label}
+                      <ChevronRight className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </a>
                   ))}
                 </nav>
                 
-                <Button className="w-full rounded-full" asChild>
+                <Button className="w-full rounded-2xl h-14 text-lg font-bold" asChild>
                   <a 
                     href="https://bit.ly/agrovet-pos-app" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    data-testid="button-get-started-mobile"
                     onClick={() => trackCTAClick("get_started_mobile")}
                   >
                     Download App
