@@ -4,8 +4,17 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
-import LandingPage from "@/pages/LandingPage";
-import AdminDashboardPage from "@/pages/AdminDashboard";
+import LandingPage from "./pages/LandingPage";
+import AdminDashboardPage from "./pages/AdminDashboard";
+import AdminLogin from "./pages/admin/Login";
+import AdminSetup from "./pages/admin/Setup";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminLicenses from "./pages/admin/Licenses";
+import AdminClients from "./pages/admin/Clients";
+import AdminContent from "./pages/admin/Content";
+import AdminReviews from "./pages/admin/Reviews";
+import AdminSettings from "./pages/admin/Settings";
+import AdminAnalytics from "./pages/admin/Analytics";
 import { useEffect } from "react";
 
 // Track page views on initial load

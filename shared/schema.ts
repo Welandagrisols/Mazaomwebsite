@@ -130,6 +130,7 @@ export const insertPageViewSchema = createInsertSchema(pageViews).omit({
   timestamp: true,
 });
 
+export type InsertPageView = z.infer<typeof insertPageViewSchema>;
 export type PageView = typeof pageViews.$inferSelect;
 // Contact form submissions
 export const contactSubmissions = pgTable("contact_submissions", {

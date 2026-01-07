@@ -24,6 +24,9 @@ import {
   reviews,
   settings,
   pageViews,
+  contactSubmissions,
+  type ContactSubmission,
+  type InsertContactSubmission,
 } from "@shared/schema";
 
 const { Pool } = pg;
@@ -87,6 +90,7 @@ export interface IStorage {
   // Analytics
   trackPageView(view: InsertPageView): Promise<PageView>;
   getAnalytics(eventType?: string, page?: string): Promise<PageView[]>;
+  createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -286,6 +290,11 @@ export class DatabaseStorage implements IStorage {
         : db.select().from(pageViews).where(and(...conditions));
     
     return await query.orderBy(desc(pageViews.timestamp));
+  }
+
+  async createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission> {
+    const result = await db.insert(contactSubmissions).values(submission).returning();
+    return result[0];
   }
 }
 

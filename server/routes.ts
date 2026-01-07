@@ -1,7 +1,14 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertClientSchema, insertLicenseSchema, insertContentSchema, insertReviewSchema, insertPageViewSchema } from "@shared/schema";
+import { 
+  insertClientSchema, 
+  insertLicenseSchema, 
+  insertContentSchema, 
+  insertReviewSchema, 
+  insertPageViewSchema,
+  insertContactSubmissionSchema 
+} from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { z } from "zod";
 import OpenAI from "openai";
@@ -553,9 +560,12 @@ export async function registerRoutes(
   // Public Contact Form API
   app.post("/api/public/contact", async (req, res) => {
     try {
-      // Logic for contact form submission would go here
-      // For now we'll just acknowledge receipt
-      res.json({ success: true, message: "Thank you for your message. We'll get back to you soon." });
+      const result = insertContactSubmissionSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ message: fromZodError(result.error).message });
+      }
+      const submission = await storage.createContactSubmission(result.data);
+      res.status(201).json(submission);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }
@@ -640,18 +650,18 @@ Format as JSON with keys "conclusion" and "suggestions" (array of strings).`;
         temperature: 0.7,
       });
 
-      const content = completion.choices[0]?.message?.content || "";
-      let insights = { conclusion: "", suggestions: [] };
+      const contentStr = completion.choices[0]?.message?.content || "";
+      let insights: { conclusion: string; suggestions: string[] } = { conclusion: "", suggestions: [] };
 
       try {
-        const parsed = JSON.parse(content);
+        const parsed = JSON.parse(contentStr);
         insights = {
-          conclusion: parsed.conclusion || "",
-          suggestions: Array.isArray(parsed.suggestions) ? parsed.suggestions : ([] as string[])
+          conclusion: String(parsed.conclusion || ""),
+          suggestions: Array.isArray(parsed.suggestions) ? (parsed.suggestions as string[]) : []
         };
       } catch {
         insights = {
-          conclusion: content.substring(0, 300),
+          conclusion: contentStr.substring(0, 300),
           suggestions: ["Review the raw AI response above for detailed analysis"]
         };
       }
