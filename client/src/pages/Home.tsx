@@ -578,19 +578,21 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="w-full">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-0">
               {FAQ_ITEMS.map((item, index) => (
-                <AccordionItem key={index} value={`item-${index}`} data-testid={`faq-item-${index}`}>
-                  <AccordionTrigger className="text-left text-sm md:text-base font-medium">
-                    {item.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm md:text-base text-muted-foreground">
-                    {item.answer}
-                  </AccordionContent>
-                </AccordionItem>
+                <Accordion type="single" collapsible key={index} className="w-full border-b">
+                  <AccordionItem value={`item-${index}`} data-testid={`faq-item-${index}`} className="border-0">
+                    <AccordionTrigger className="text-left text-sm md:text-base font-medium py-4">
+                      {item.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-sm md:text-base text-muted-foreground pb-4">
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               ))}
-            </Accordion>
+            </div>
           </div>
 
           <div className="mt-8 md:mt-12 text-center">
