@@ -8,6 +8,7 @@ import Home from "@/pages/Home";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import AdminLogin from "@/pages/admin/Login";
+import AdminSetup from "@/pages/admin/Setup";
 import AdminDashboard from "@/pages/admin/Dashboard";
 import AdminLicenses from "@/pages/admin/Licenses";
 import AdminClients from "@/pages/admin/Clients";
@@ -46,6 +47,7 @@ function Router() {
       </Route>
       
       <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin/setup" component={AdminSetup} />
       
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/analytics" component={AdminAnalytics} />
