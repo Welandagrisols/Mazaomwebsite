@@ -31,11 +31,12 @@ import {
 
 const { Pool } = pg;
 
-// Use Supabase connection string from DATABASE_URL secret
-const connectionString = process.env.DATABASE_URL;
+// Use connection string from secrets
+// For Supabase, this should be the transaction pooled connection string
+const connectionString = process.env.DATABASE_URL || process.env.SUPABASE_DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error("DATABASE_URL secret is not set. Please ensure the Supabase connection string is provided.");
+  throw new Error("Database connection string not found. Please add DATABASE_URL or SUPABASE_DATABASE_URL to your secrets.");
 }
 
 const pool = new Pool({
