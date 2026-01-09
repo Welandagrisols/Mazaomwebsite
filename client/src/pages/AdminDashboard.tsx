@@ -1,5 +1,6 @@
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
 import { LayoutDashboard, Users, Key, Settings, FileText, MessageSquare, BarChart } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function AdminDashboardPage() {
   const menuItems = [
@@ -40,9 +41,12 @@ export default function AdminDashboardPage() {
           </SidebarContent>
         </Sidebar>
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="flex items-center gap-4 p-4 border-b bg-background/95 backdrop-blur sticky top-0 z-10">
-            <SidebarTrigger className="lg:hidden" />
-            <h1 className="text-xl font-bold md:text-2xl truncate">Admin Dashboard</h1>
+          <header className="flex items-center justify-between gap-4 p-4 border-b bg-background/95 backdrop-blur sticky top-0 z-10">
+            <div className="flex items-center gap-4">
+              <SidebarTrigger className="lg:hidden" />
+              <h1 className="text-xl font-bold md:text-2xl truncate">Admin Dashboard</h1>
+            </div>
+            <ThemeToggle />
           </header>
           <main className="flex-1 p-4 md:p-8 overflow-auto">
             <h1 className="text-2xl md:text-3xl font-bold mb-6">Welcome back, Admin</h1>

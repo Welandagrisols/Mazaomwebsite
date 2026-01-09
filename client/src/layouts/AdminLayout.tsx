@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { ADMIN_NAV_ITEMS } from "@/lib/constants";
-import { LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import logo from "@assets/generated_images/clean_vector_logo_of_plant_with_digital_network_roots.png";
 
@@ -52,7 +53,8 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           <NavItems />
         </nav>
 
-        <div className="p-4 border-t border-sidebar-border">
+        <div className="p-4 border-t border-sidebar-border space-y-2">
+          <ThemeToggle />
           <Button 
             variant="ghost" 
             className="w-full justify-start text-sidebar-foreground/70 hover:text-destructive hover:bg-destructive/10"
@@ -80,7 +82,8 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           <nav className="flex-1 p-4 space-y-1">
             <NavItems onItemClick={() => setMobileMenuOpen(false)} />
           </nav>
-          <div className="p-4 border-t border-sidebar-border">
+          <div className="p-4 border-t border-sidebar-border space-y-2">
+            <ThemeToggle />
             <Button 
               variant="ghost" 
               className="w-full justify-start text-sidebar-foreground/70 hover:text-destructive hover:bg-destructive/10"
@@ -108,7 +111,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             <Menu className="h-5 w-5" />
           </Button>
           <span className="font-display font-bold">Agrisols Admin</span>
-          <div className="w-9" />
+          <ThemeToggle />
         </div>
         <div className="p-6 md:p-8 max-w-7xl mx-auto">
           {children}
