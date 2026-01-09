@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import logo from "@assets/generated_images/clean_vector_logo_of_plant_with_digital_network_roots.png";
 
