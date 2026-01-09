@@ -143,17 +143,17 @@ export default function AdminReviews() {
   return (
     <AdminLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-display font-bold text-foreground">Client Reviews</h1>
-        <p className="text-muted-foreground">Manage and moderate customer reviews</p>
+        <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground">Client Reviews</h1>
+        <p className="text-sm md:text-base text-muted-foreground">Manage and moderate customer reviews</p>
       </div>
 
       {pendingReviews.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <h2 className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-2">
             Pending Approval
             <Badge variant="secondary">{pendingReviews.length}</Badge>
           </h2>
-          <div className="grid gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
             {pendingReviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
             ))}
@@ -163,11 +163,11 @@ export default function AdminReviews() {
 
       {approvedReviews.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <h2 className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-2">
             Approved Reviews
             <Badge>{approvedReviews.length}</Badge>
           </h2>
-          <div className="grid gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
             {approvedReviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
             ))}
@@ -177,11 +177,11 @@ export default function AdminReviews() {
 
       {rejectedReviews.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <h2 className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-2">
             Rejected Reviews
             <Badge variant="destructive">{rejectedReviews.length}</Badge>
           </h2>
-          <div className="grid gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
             {rejectedReviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
             ))}

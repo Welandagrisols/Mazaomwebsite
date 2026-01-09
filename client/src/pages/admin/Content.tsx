@@ -160,20 +160,20 @@ export default function AdminContent() {
     <AdminLayout>
       <div className="mb-8 flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-3xl font-display font-bold text-foreground">Create Content</h1>
-          <p className="text-muted-foreground">Create and manage blog posts with AI assistance</p>
+          <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground">Create Content</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Create and manage blog posts with AI assistance</p>
         </div>
         <Dialog open={isCreateOpen} onOpenChange={(open) => {
           setIsCreateOpen(open);
           if (!open) resetForm();
         }}>
           <DialogTrigger asChild>
-            <Button data-testid="button-create-content" onClick={() => resetForm()}>
+            <Button data-testid="button-create-content" onClick={() => resetForm()} className="w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
               New Content
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[95vh] overflow-y-auto w-[95vw] rounded-lg">
             <DialogHeader>
               <DialogTitle>{editingId ? "Edit Content" : "Create New Content"}</DialogTitle>
             </DialogHeader>

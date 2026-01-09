@@ -97,17 +97,17 @@ export default function Licenses() {
     <AdminLayout>
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-display font-bold">License Management</h1>
-          <p className="text-muted-foreground">Generate and manage software licenses.</p>
+          <h1 className="text-2xl md:text-3xl font-display font-bold">License Management</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Generate and manage software licenses.</p>
         </div>
         
         <Dialog open={isGenerateOpen} onOpenChange={setIsGenerateOpen}>
           <DialogTrigger asChild>
-            <Button size="lg" className="gap-2 shadow-md">
+            <Button size="lg" className="gap-2 shadow-md w-full md:w-auto">
               <Plus className="h-5 w-5" /> Generate New Key
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-md">
+          <DialogContent className="sm:max-w-md w-[95vw] rounded-lg">
             <DialogHeader>
               <DialogTitle>Generate License Key</DialogTitle>
               <DialogDescription>

@@ -31,15 +31,21 @@ import {
 
 const { Pool } = pg;
 
-// Connection string from secrets
+// Use Supabase connection string from DATABASE_URL secret
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error("DATABASE_URL is not set");
+  throw new Error("DATABASE_URL secret is not set. Please ensure the Supabase connection string is provided.");
 }
 
 const pool = new Pool({
   connectionString,
+  ssl: {
+    rejectUnauthorized: false
+  },
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
 
 const db = drizzle(pool);

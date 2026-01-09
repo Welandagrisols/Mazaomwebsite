@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AdminLayout } from "@/layouts/AdminLayout";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { Key, ShoppingBag, Users, AlertCircle } from "lucide-react";
+import { Key, ShoppingBag, Users, AlertCircle, Menu } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@/components/ui/spinner";
 
@@ -55,9 +55,9 @@ export default function Dashboard() {
         <p className="text-muted-foreground">Welcome back, Admin. Here's what's happening today.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <Card className="hover-elevate">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-1">
             <CardTitle className="text-sm font-medium">Total Licenses</CardTitle>
             <Key className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -67,8 +67,8 @@ export default function Dashboard() {
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="hover-elevate">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-1">
             <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -78,8 +78,8 @@ export default function Dashboard() {
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="hover-elevate">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-1">
             <CardTitle className="text-sm font-medium">Expiring Soon</CardTitle>
             <AlertCircle className="h-4 w-4 text-orange-500" />
           </CardHeader>
@@ -89,13 +89,13 @@ export default function Dashboard() {
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="hover-elevate">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-1">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
             <ShoppingBag className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">KES 45,231</div>
+            <div className="text-2xl font-bold text-primary">KES 45,231</div>
             <p className="text-xs text-muted-foreground">+20.1% from last month</p>
           </CardContent>
         </Card>

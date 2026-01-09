@@ -91,12 +91,12 @@ export default function Analytics() {
   return (
     <AdminLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-display font-bold text-foreground">Marketing Analytics</h1>
-        <p className="text-muted-foreground">Track website performance and user engagement</p>
+        <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground">Marketing Analytics</h1>
+        <p className="text-sm md:text-base text-muted-foreground">Track website performance and user engagement</p>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Page Views</CardTitle>

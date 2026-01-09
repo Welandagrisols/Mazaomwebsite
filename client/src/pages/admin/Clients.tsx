@@ -30,10 +30,10 @@ export default function Clients() {
     <AdminLayout>
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-display font-bold">Client Management</h1>
-          <p className="text-muted-foreground">View and manage registered shops.</p>
+          <h1 className="text-2xl md:text-3xl font-display font-bold">Client Management</h1>
+          <p className="text-sm md:text-base text-muted-foreground">View and manage registered shops.</p>
         </div>
-        <Button>Add New Client</Button>
+        <Button className="w-full md:w-auto">Add New Client</Button>
       </div>
 
       <div className="bg-card rounded-lg border shadow-sm">
