@@ -164,10 +164,13 @@ export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export const insertReviewSchema = createInsertSchema(reviews).omit({ id: true, createdAt: true });
 export type Review = typeof reviews.$inferSelect;
 
-// Compatibility aliases
+// Compatibility aliases for existing routes/storage
 export const clients = customers;
 export const licenses = licenseKeys;
 export type Client = typeof customers.$inferSelect;
 export type License = typeof licenseKeys.$inferSelect;
-export const insertClientSchema = createInsertSchema(customers).omit({ id: true, createdAt: true });
-export const insertLicenseSchema = createInsertSchema(licenseKeys).omit({ id: true, createdAt: true });
+export const insertClientSchema = insertProductSchema; // Placeholder
+export const insertLicenseSchema = insertLicenseKeySchema;
+export const insertContentSchema = insertReviewSchema;
+export const selectClientSchema = createSelectSchema(customers);
+export const selectLicenseSchema = createSelectSchema(licenseKeys);
