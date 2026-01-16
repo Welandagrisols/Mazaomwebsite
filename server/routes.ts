@@ -42,16 +42,6 @@ export async function registerRoutes(
       }
 
       const allUsers = await storage.getAllUsers();
-      
-      // If users already exist, we don't allow public access to this endpoint
-      // It should only be used via the Admin Settings delegation (which we'll assume is safe for now as it's a POST)
-      // In a real app, we'd check for an active admin session here.
-      if (allUsers.length > 0 && !req.headers.authorization) {
-        // Simple heuristic: if users exist and no auth header (mocking session), block public access
-        // Note: The frontend doesn't send auth headers yet, so this might block valid delegation.
-        // Let's stick to the logic: if no users, it's setup. If users exist, it's management.
-      }
-
       const existingUser = await storage.getUserByUsername(username);
       if (existingUser) {
         return res.status(400).json({ message: "User already exists." });
@@ -102,10 +92,6 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Username, current password, and new password are required" });
       }
 
-      if (newPassword.length < 6) {
-        return res.status(400).json({ message: "New password must be at least 6 characters" });
-      }
-
       const user = await storage.getUserByUsername(username);
       if (!user) {
         return res.status(401).json({ message: "User not found" });
@@ -123,7 +109,7 @@ export async function registerRoutes(
     }
   });
 
-  // Clients API
+  // Users API
   app.get("/api/admin/users", async (_req, res) => {
     try {
       const users = await storage.getAllUsers();
@@ -136,7 +122,7 @@ export async function registerRoutes(
   app.delete("/api/admin/users/:username", async (req, res) => {
     try {
       const { username } = req.params;
-      const success = await storage.deleteUser?.(username);
+      const success = await storage.deleteUser(username);
       if (!success) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -282,53 +268,6 @@ export async function registerRoutes(
     }
   });
 
-  // License Verification API
-  app.post("/api/licenses/verify", async (req, res) => {
-    try {
-      const { key, phone } = req.body;
-
-      if (!key) {
-        return res.status(400).json({ success: false, message: "License key is required" });
-      }
-
-      const license = await storage.getLicenseByKey(key);
-      if (!license) {
-        return res.status(404).json({ success: false, message: "License key not found" });
-      }
-
-      // Check if license has expired
-      const expiryDate = new Date(license.expiry);
-      const today = new Date();
-      if (expiryDate < today) {
-        return res.status(403).json({ success: false, message: "License has expired" });
-      }
-
-      // Check if license is already in use
-      if (license.status === "Used" || license.status === "Expired") {
-        return res.status(403).json({ success: false, message: "License is already in use or has expired" });
-      }
-
-      // Verify phone number if provided
-      if (phone && license.phone && license.phone !== phone) {
-        return res.status(401).json({ success: false, message: "Phone number does not match this license" });
-      }
-
-      // Return success
-      res.json({
-        success: true,
-        message: "License verified successfully",
-        license: {
-          key: license.key,
-          shop: license.shop,
-          status: license.status,
-          expiry: license.expiry,
-        }
-      });
-    } catch (error: any) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  });
-
   // Content API
   app.get("/api/content", async (_req, res) => {
     try {
@@ -348,19 +287,6 @@ export async function registerRoutes(
     }
   });
 
-  app.get("/api/content/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const contentItem = await storage.getContent(id);
-      if (!contentItem) {
-        return res.status(404).json({ message: "Content not found" });
-      }
-      res.json(contentItem);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
   app.post("/api/content", async (req, res) => {
     try {
       const result = insertContentSchema.safeParse(req.body);
@@ -374,42 +300,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/content/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const contentItem = await storage.updateContent(id, req.body);
-      if (!contentItem) {
-        return res.status(404).json({ message: "Content not found" });
-      }
-      res.json(contentItem);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  app.delete("/api/content/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const success = await storage.deleteContent(id);
-      if (!success) {
-        return res.status(404).json({ message: "Content not found" });
-      }
-      res.status(204).send();
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
   // Reviews API
-  app.get("/api/reviews", async (_req, res) => {
-    try {
-      const allReviews = await storage.getAllReviews();
-      res.json(allReviews);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
   app.get("/api/reviews/approved", async (_req, res) => {
     try {
       const approved = await storage.getApprovedReviews();
@@ -432,131 +323,6 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/reviews/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const review = await storage.updateReview(id, req.body);
-      if (!review) {
-        return res.status(404).json({ message: "Review not found" });
-      }
-      res.json(review);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  app.delete("/api/reviews/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const success = await storage.deleteReview(id);
-      if (!success) {
-        return res.status(404).json({ message: "Review not found" });
-      }
-      res.status(204).send();
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  // Settings API
-  app.get("/api/settings", async (_req, res) => {
-    try {
-      const allSettings = await storage.getAllSettings();
-      res.json(allSettings);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  app.get("/api/settings/:key", async (req, res) => {
-    try {
-      const setting = await storage.getSetting(req.params.key);
-      if (!setting) {
-        return res.status(404).json({ message: "Setting not found" });
-      }
-      res.json(setting);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  app.post("/api/settings", async (req, res) => {
-    try {
-      const { key, value } = req.body;
-      if (!key || !value) {
-        return res.status(400).json({ message: "Key and value are required" });
-      }
-      const setting = await storage.setSetting(key, value);
-      res.json(setting);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  // AI Content Generation API
-  app.post("/api/ai/generate-content", async (req, res) => {
-    try {
-      const { topic, type } = req.body;
-      
-      if (!topic) {
-        return res.status(400).json({ message: "Topic is required" });
-      }
-
-      // Get OpenAI API key from settings or environment
-      let apiKey = process.env.OPENAI_API_KEY;
-      const settingKey = await storage.getSetting("OPENAI_API_KEY");
-      if (settingKey) {
-        apiKey = settingKey.value;
-      }
-
-      if (!apiKey) {
-        return res.status(400).json({ message: "OpenAI API key not configured. Please add it in Settings." });
-      }
-
-      const openai = new OpenAI({ apiKey });
-
-      const prompt = type === "blog" 
-        ? `Write a professional blog post about "${topic}" for an agricultural/veterinary POS software company called AgroVet POS. The content should be helpful, informative, and relevant to agro-vet shop owners in Kenya. Include a compelling title, introduction, main points, and conclusion. Format with markdown.`
-        : `Write a short announcement or update about "${topic}" for AgroVet POS software. Keep it concise and professional, suitable for a landing page or social media. Include a title and body text.`;
-
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: [
-          { role: "system", content: "You are a professional content writer for AgroVet POS, a point-of-sale software for agricultural and veterinary shops in Kenya." },
-          { role: "user", content: prompt }
-        ],
-        max_tokens: 1500,
-      });
-
-      const generatedContent = completion.choices[0]?.message?.content || "";
-      
-      // Extract title from the generated content (first line or heading)
-      const lines = generatedContent.split('\n').filter(l => l.trim());
-      let title = lines[0]?.replace(/^#*\s*/, '').trim() || topic;
-      const body = generatedContent;
-      const excerpt = body.substring(0, 200).replace(/[#*]/g, '').trim() + "...";
-
-      res.json({ title, body, excerpt });
-    } catch (error: any) {
-      console.error("AI generation error:", error);
-      res.status(500).json({ message: error.message || "Failed to generate content" });
-    }
-  });
-
-  // Marketing Analytics API
-  app.post("/api/analytics/track", async (req, res) => {
-    try {
-      const result = insertPageViewSchema.safeParse(req.body);
-      if (!result.success) {
-        return res.status(400).json({ message: fromZodError(result.error).message });
-      }
-      const pageView = await storage.trackPageView(result.data);
-      res.status(201).json(pageView);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
   // Public Contact Form API
   app.post("/api/public/contact", async (req, res) => {
     try {
@@ -567,111 +333,6 @@ export async function registerRoutes(
       const submission = await storage.createContactSubmission(result.data);
       res.status(201).json(submission);
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  app.get("/api/analytics", async (req, res) => {
-    try {
-      const { eventType, page } = req.query;
-      const analytics = await storage.getAnalytics(
-        eventType as string | undefined,
-        page as string | undefined
-      );
-      res.json(analytics);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  // AI Insights for Analytics
-  app.get("/api/analytics/insights", async (req, res) => {
-    try {
-      const analytics = await storage.getAnalytics();
-      
-      if (!analytics || analytics.length === 0) {
-        return res.json({ conclusion: "No data yet", suggestions: [] });
-      }
-
-      // Calculate metrics
-      const pageViews = analytics.filter(a => a.eventType === "page_view").length;
-      const ctaClicks = analytics.filter(a => a.eventType === "cta_click").length;
-      const conversionRate = pageViews > 0 ? ((ctaClicks / pageViews) * 100).toFixed(1) : 0;
-
-      // Group by action
-      const actionStats: any = {};
-      analytics.forEach(a => {
-        const action = a.action || "unknown";
-        actionStats[action] = (actionStats[action] || 0) + 1;
-      });
-
-      const topPerformers = Object.entries(actionStats)
-        .map(([action, count]: [string, any]) => ({
-          action,
-          count,
-          percentage: ((count / ctaClicks) * 100).toFixed(1)
-        }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 3);
-
-      const apiKey = process.env.OPENAI_API_KEY;
-      if (!apiKey) {
-        return res.json({
-          conclusion: `Your landing page has attracted ${pageViews} visitors with ${ctaClicks} CTA interactions (${conversionRate}% conversion rate).`,
-          suggestions: [
-            "Continue monitoring traffic sources to identify high-performing channels",
-            "Test A/B variations of your CTA buttons to improve conversion rates",
-            "Focus on the top-performing CTAs and replicate their success"
-          ],
-          topPerformers
-        });
-      }
-
-      const openai = new OpenAI({ apiKey });
-
-      const prompt = `Analyze this landing page analytics data and provide actionable insights:
-- Total Page Views: ${pageViews}
-- CTA Clicks: ${ctaClicks}
-- Conversion Rate: ${conversionRate}%
-- Top CTAs: ${topPerformers.map(p => `${p.action} (${p.count} clicks)`).join(", ")}
-
-Provide:
-1. A brief conclusion about overall performance
-2. 3-4 specific, actionable suggestions to improve engagement
-Format as JSON with keys "conclusion" and "suggestions" (array of strings).`;
-
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: "You are a marketing analytics expert. Provide insights about landing page performance." },
-          { role: "user", content: prompt }
-        ],
-        max_tokens: 600,
-        temperature: 0.7,
-      });
-
-      const contentStr = completion.choices[0]?.message?.content || "";
-      let insights: { conclusion: string; suggestions: string[] } = { conclusion: "", suggestions: [] };
-
-      try {
-        const parsed = JSON.parse(contentStr);
-        insights = {
-          conclusion: String(parsed.conclusion || ""),
-          suggestions: Array.isArray(parsed.suggestions) ? (parsed.suggestions as string[]) : []
-        };
-      } catch {
-        insights = {
-          conclusion: contentStr.substring(0, 300),
-          suggestions: ["Review the raw AI response above for detailed analysis"]
-        };
-      }
-
-      res.json({
-        ...insights,
-        topPerformers
-      });
-    } catch (error: any) {
-      console.error("Analytics insights error:", error);
       res.status(500).json({ message: error.message });
     }
   });

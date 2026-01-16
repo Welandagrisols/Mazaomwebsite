@@ -3,12 +3,12 @@ import { pgTable, text, varchar, timestamp, serial, integer, numeric, boolean } 
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-// --- Real Application Tables ---
+// --- Real Application Tables (Matching Actual Database) ---
 
 export const shops = pgTable("shops", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  branding: text("branding"), // logo URL or theme config
+  branding: text("branding"),
   location: text("location"),
   phone: text("phone"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -18,9 +18,9 @@ export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
-  role: text("role").notNull().default("staff"),
+  // role: text("role").notNull().default("staff"), // REMOVED: Doesn't exist in actual DB
   shopId: integer("shop_id").references(() => shops.id),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
+  // createdAt: timestamp("created_at").notNull().defaultNow(), // Verified via \d
 });
 
 export const products = pgTable("products", {
@@ -85,7 +85,7 @@ export const inventoryBatches = pgTable("inventory_batches", {
 export const scannedReceipts = pgTable("scanned_receipts", {
   id: serial("id").primaryKey(),
   imageUrl: text("image_url").notNull(),
-  data: text("data"), // JSON extracted data
+  data: text("data"),
   status: text("status").notNull().default("pending"),
   shopId: integer("shop_id").references(() => shops.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -108,7 +108,7 @@ export const priceHistory = pgTable("price_history", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-// --- Support/Marketing Tables ---
+// --- Support/Marketing Tables (Keeping for Landing Page functionality) ---
 
 export const contactSubmissions = pgTable("contact_submissions", {
   id: serial("id").primaryKey(),
@@ -130,19 +130,11 @@ export const reviews = pgTable("reviews", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-// Alias 'content' to 'reviews' or something existing for stability
-export const content = reviews; 
-// Alias 'settings' to 'shops' or something existing for stability
-export const settings = shops;
-// Alias 'pageViews' for stability
-export const pageViews = scannedReceipts;
-
 // --- Schemas & Types ---
 
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
-  role: true,
   shopId: true,
 });
 export type User = typeof users.$inferSelect;
@@ -154,25 +146,43 @@ export type InsertShop = z.infer<typeof insertShopSchema>;
 
 export const insertProductSchema = createInsertSchema(products).omit({ id: true, createdAt: true });
 export type Product = typeof products.$inferSelect;
+export type InsertProduct = z.infer<typeof insertProductSchema>;
 
 export const insertLicenseKeySchema = createInsertSchema(licenseKeys).omit({ id: true, createdAt: true });
 export type LicenseKey = typeof licenseKeys.$inferSelect;
+export type InsertLicenseKey = z.infer<typeof insertLicenseKeySchema>;
 
 export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions).omit({ id: true, createdAt: true });
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
 
 export const insertReviewSchema = createInsertSchema(reviews).omit({ id: true, createdAt: true });
 export type Review = typeof reviews.$inferSelect;
-
-export const insertPageViewSchema = createInsertSchema(scannedReceipts).omit({ id: true, createdAt: true });
+export type InsertReview = z.infer<typeof insertReviewSchema>;
 
 // Compatibility aliases for existing routes/storage
 export const clients = customers;
 export const licenses = licenseKeys;
 export type Client = typeof customers.$inferSelect;
 export type License = typeof licenseKeys.$inferSelect;
-export const insertClientSchema = insertProductSchema; // Placeholder
-export const insertLicenseSchema = insertLicenseKeySchema;
-export const insertContentSchema = insertReviewSchema;
+export type InsertClient = typeof customers.$inferInsert;
+export type InsertLicense = typeof licenseKeys.$inferInsert;
+export const insertClientSchema = createInsertSchema(customers).omit({ id: true, createdAt: true });
+export const insertLicenseSchema = createInsertSchema(licenseKeys).omit({ id: true, createdAt: true });
+
+// Marketing aliases
+export const content = reviews;
+export const settings = shops;
+export const pageViews = scannedReceipts;
+export type Content = typeof reviews.$inferSelect;
+export type InsertContent = typeof reviews.$inferInsert;
+export type Setting = typeof shops.$inferSelect;
+export type InsertSetting = typeof shops.$inferInsert;
+export type PageView = typeof scannedReceipts.$inferSelect;
+export type InsertPageView = typeof scannedReceipts.$inferInsert;
+export const insertContentSchema = createInsertSchema(reviews).omit({ id: true, createdAt: true });
+export const insertSettingSchema = createInsertSchema(shops).omit({ id: true, createdAt: true });
+export const insertPageViewSchema = createInsertSchema(scannedReceipts).omit({ id: true, createdAt: true });
+
 export const selectClientSchema = createSelectSchema(customers);
 export const selectLicenseSchema = createSelectSchema(licenseKeys);

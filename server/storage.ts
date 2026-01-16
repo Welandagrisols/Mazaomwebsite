@@ -31,8 +31,6 @@ import {
 
 const { Pool } = pg;
 
-// Use connection string from secrets
-// For Supabase, this should be the transaction pooled connection string
 const connectionString = process.env.DATABASE_URL || process.env.SUPABASE_DATABASE_URL;
 
 if (!connectionString) {
@@ -59,6 +57,7 @@ export interface IStorage {
   getAllUsers(): Promise<User[]>;
   verifyPassword(storedHash: string, plainPassword: string): Promise<boolean>;
   updateUserPassword(username: string, newPassword: string): Promise<User | undefined>;
+  deleteUser(username: string): Promise<boolean>;
 
   // Clients
   getAllClients(): Promise<Client[]>;
@@ -201,7 +200,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getPublishedContent(): Promise<Content[]> {
-    return await db.select().from(content).where(eq(content.status, "published")).orderBy(desc(content.createdAt));
+    return await db.select().from(content).where(eq(content.approved, "approved")).orderBy(desc(content.createdAt));
   }
 
   async getContent(id: number): Promise<Content | undefined> {
@@ -255,17 +254,13 @@ export class DatabaseStorage implements IStorage {
 
   // Settings
   async getSetting(key: string): Promise<Setting | undefined> {
-    const result = await db.select().from(settings).where(eq(settings.key, key)).limit(1);
+    // Aliasing setting to shop for now
+    const result = await db.select().from(settings).where(eq(settings.name, key)).limit(1);
     return result[0];
   }
 
   async setSetting(key: string, value: string): Promise<Setting> {
-    const existing = await this.getSetting(key);
-    if (existing) {
-      const result = await db.update(settings).set({ value, updatedAt: new Date() }).where(eq(settings.key, key)).returning();
-      return result[0];
-    }
-    const result = await db.insert(settings).values({ key, value }).returning();
+    const result = await db.insert(settings).values({ name: key, branding: value }).returning();
     return result[0];
   }
 
@@ -284,22 +279,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAnalytics(eventType?: string, page?: string): Promise<PageView[]> {
-    let conditions = [];
-    
-    if (eventType) {
-      conditions.push(eq(pageViews.eventType, eventType));
-    }
-    if (page) {
-      conditions.push(eq(pageViews.page, page));
-    }
-    
-    const query = conditions.length === 0
-      ? db.select().from(pageViews)
-      : conditions.length === 1
-        ? db.select().from(pageViews).where(conditions[0])
-        : db.select().from(pageViews).where(and(...conditions));
-    
-    return await query.orderBy(desc(pageViews.timestamp));
+    const query = db.select().from(pageViews);
+    return await query.orderBy(desc(pageViews.createdAt));
   }
 
   async createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission> {
