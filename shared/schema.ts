@@ -164,6 +164,8 @@ export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export const insertReviewSchema = createInsertSchema(reviews).omit({ id: true, createdAt: true });
 export type Review = typeof reviews.$inferSelect;
 
+export const insertPageViewSchema = createInsertSchema(scannedReceipts).omit({ id: true, createdAt: true });
+
 // Compatibility aliases for existing routes/storage
 export const clients = customers;
 export const licenses = licenseKeys;
