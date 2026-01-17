@@ -55,7 +55,8 @@ export const contactSubmissions = pgTable("contact_submissions", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const reviews = pgTable("reviews", {
+// Mock/Stability definitions for missing tables
+export const reviews = pgTable("reviews_mock", {
   id: serial("id").primaryKey(),
   clientName: text("client_name").notNull(),
   business: text("business").notNull(),
@@ -91,7 +92,7 @@ export type Review = typeof reviews.$inferSelect;
 export type InsertReview = z.infer<typeof insertReviewSchema>;
 
 // Compatibility aliases
-export const products = clients; // Placeholder for UI stability
+export const products = clients; 
 export const content = reviews;
 export const settings = shops;
 export const pageViews = contactSubmissions;
