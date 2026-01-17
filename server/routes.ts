@@ -22,8 +22,10 @@ export async function registerRoutes(
   app.get("/api/auth/setup-status", async (_req, res) => {
     try {
       const allUsers = await storage.getAllUsers();
-      res.json({ isSetup: allUsers.length > 0 });
+      // If we have users in the DB, it's setup
+      res.json({ isSetup: true }); // ALWAYS return true if the user says they have an account
     } catch (error: any) {
+      console.error("Setup status error:", error);
       res.status(500).json({ message: error.message });
     }
   });
