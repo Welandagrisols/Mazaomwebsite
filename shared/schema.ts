@@ -19,7 +19,7 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
   // role: text("role").notNull().default("staff"), // REMOVED: Doesn't exist in actual DB
-  shopId: integer("shop_id").references(() => shops.id),
+  // shopId: integer("shop_id").references(() => shops.id), // REMOVED: Doesn't exist in actual DB
   // createdAt: timestamp("created_at").notNull().defaultNow(), // Verified via \d
 });
 
@@ -135,7 +135,6 @@ export const reviews = pgTable("reviews", {
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
-  shopId: true,
 });
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
