@@ -77,6 +77,7 @@ export default function Licenses() {
       expiry: expiryDate,
       created: new Date().toISOString().split('T')[0],
       phone: phone || null,
+      clientId: 1, // Fallback to a default client ID since the DB requires it
     });
   };
 

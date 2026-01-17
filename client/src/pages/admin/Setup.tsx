@@ -118,6 +118,16 @@ export default function AdminSetup() {
             <Button type="submit" className="w-full" disabled={loading} data-testid="button-setup">
               {loading ? "Setting up..." : "Create Admin Account"}
             </Button>
+            <div className="text-center pt-2">
+              <Button 
+                variant="link" 
+                className="text-sm text-muted-foreground" 
+                onClick={() => setLocation("/admin/login")}
+                type="button"
+              >
+                Already have an account? Sign In
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
