@@ -257,7 +257,6 @@ export class DatabaseStorage implements IStorage {
 
   // Settings
   async getSetting(key: string): Promise<Setting | undefined> {
-    // Aliasing setting to shop for now
     const result = await db.select().from(settings).where(eq(settings.name, key)).limit(1);
     return result[0];
   }
