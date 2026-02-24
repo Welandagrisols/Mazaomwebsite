@@ -245,13 +245,31 @@ export async function registerRoutes(
         if (allClients.length > 0) {
           clientId = allClients[0].id;
         } else {
+          // If no clients exist, create one first to avoid foreign key error
           const newClient = await storage.createClient({
-            name: req.body.shop || "Default Client",
+            name: req.body.shop && req.body.shop !== "-" ? req.body.shop : "Default Client",
             phone: req.body.phone || null,
             location: "Nairobi",
             status: "Active"
           });
           clientId = newClient.id;
+        }
+      } else {
+        // Verify the provided clientId actually exists
+        const existingClient = await storage.getClient(clientId);
+        if (!existingClient) {
+          const allClients = await storage.getAllClients();
+          if (allClients.length > 0) {
+            clientId = allClients[0].id;
+          } else {
+            const newClient = await storage.createClient({
+              name: req.body.shop && req.body.shop !== "-" ? req.body.shop : "Default Client",
+              phone: req.body.phone || null,
+              location: "Nairobi",
+              status: "Active"
+            });
+            clientId = newClient.id;
+          }
         }
       }
 
