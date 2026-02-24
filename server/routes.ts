@@ -237,9 +237,28 @@ export async function registerRoutes(
       if (!result.success) {
         return res.status(400).json({ message: fromZodError(result.error).message });
       }
-      const license = await storage.createLicense(result.data);
+
+      // Ensure a client exists or create one if needed for the foreign key
+      let clientId = req.body.clientId;
+      if (!clientId) {
+        const allClients = await storage.getAllClients();
+        if (allClients.length > 0) {
+          clientId = allClients[0].id;
+        } else {
+          const newClient = await storage.createClient({
+            name: req.body.shop || "Default Client",
+            phone: req.body.phone || null,
+            location: "Nairobi",
+            status: "Active"
+          });
+          clientId = newClient.id;
+        }
+      }
+
+      const license = await storage.createLicense({ ...result.data, clientId });
       res.status(201).json(license);
     } catch (error: any) {
+      console.error("License creation error:", error);
       res.status(500).json({ message: error.message });
     }
   });

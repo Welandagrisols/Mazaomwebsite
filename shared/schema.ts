@@ -24,7 +24,6 @@ export const clients = pgTable("clients", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   phone: text("phone"),
-  business: text("business"),
   location: text("location"),
   status: text("status").notNull().default("Active"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
