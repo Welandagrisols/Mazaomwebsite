@@ -231,6 +231,40 @@ export async function registerRoutes(
     }
   });
 
+  // Activation endpoint for desktop app
+  app.post("/api/licenses/activate", async (req, res) => {
+    try {
+      const { key, shopName } = req.body;
+      if (!key) {
+        return res.status(400).json({ message: "License key is required" });
+      }
+
+      const license = await storage.getLicenseByKey(key);
+      if (!license) {
+        return res.status(404).json({ message: "Invalid license key" });
+      }
+
+      if (license.status === "Used") {
+        return res.status(400).json({ message: "License key has already been used" });
+      }
+
+      // Update license status and shop name
+      const updatedLicense = await storage.updateLicense(license.id, {
+        status: "Used",
+        shop: shopName || license.shop
+      });
+
+      res.json({ 
+        success: true, 
+        message: "License activated successfully",
+        license: updatedLicense 
+      });
+    } catch (error: any) {
+      console.error("Activation error:", error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   app.post("/api/licenses", async (req, res) => {
     try {
       const result = insertLicenseSchema.safeParse(req.body);
