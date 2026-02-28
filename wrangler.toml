@@ -1,4 +1,4 @@
-name = "rest-express-api"
+name = "mazaomwebsite"
 main = "worker/index.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
